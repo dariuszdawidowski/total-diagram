@@ -1,0 +1,162 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Total Diagram Demo</title>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+
+            html, body {
+                width: 100%;    
+                height: 100%;
+                margin: 0;
+            }
+
+            #container {
+                position: relative;
+                margin: 0 auto;
+                display: block;
+                background-color: #060531;
+                width: 100%;
+                min-width: 640px;
+                height: 100%;
+                min-height: 480px;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                touch-action: none;
+                overflow: hidden;
+            }
+
+            .node {
+                display: flex;
+                position: absolute;
+                background-color: #e88f56;
+            }
+
+            .link {
+                position: absolute;
+                left: 0;
+                top: 0;
+                overflow: visible;
+                z-index: -1;
+            }
+
+            .link line {
+                pointer-events: none;
+                fill: #fff;
+                stroke: #fff;
+                stroke-width: 2;
+            }
+
+        </style>
+    </head>
+    <body>
+        <!-- Main diagram container -->
+        <div id="container"></div>
+
+        <!-- Total Diagram library -->
+        <script type="text/javascript" src="node.js" data-include="test"></script>
+        <script type="text/javascript" src="link.js" data-include="test"></script>
+        <script type="text/javascript" src="nodes.js" data-include="test"></script>
+        <script type="text/javascript" src="links.js" data-include="test"></script>
+        <script type="text/javascript" src="render.js" data-include="test"></script>
+
+        <script>
+
+            // Default node definition
+
+            class NodeSquare extends TotalDiagramNode {
+
+                constructor(args) {
+                    super(args);
+
+                    // Class
+                    this.element.classList.add('node');
+
+                    // Size
+                    this.setSize({width: 50, height: 50});
+
+                    // Update
+                    this.update();
+                }
+            }
+
+            // Default link definition
+
+            class LinkLine extends TotalDiagramLink {
+
+                constructor(args) {
+                    super(args);
+
+                    // Link DOM element
+                    this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    this.element.classList.add('link');
+
+                    // Copy ID onto DOM element
+                    this.element.dataset.id = this.id;
+
+                    // SVG DOM element
+                    this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    this.element.appendChild(this.line);
+
+                    // Update
+                    this.update();
+                }
+
+                update() {
+                    this.line.setAttribute('x1', this.start.transform.x);
+                    this.line.setAttribute('y1', this.start.transform.y);
+                    this.line.setAttribute('x2', this.end.transform.x);
+                    this.line.setAttribute('y2', this.end.transform.y);
+                }
+
+            }
+
+            // Start
+
+            window.onload = function() {
+
+                // Create managers
+                const render = new TotalDiagramRenderHTML5({
+                    container: document.getElementById('container'),
+                    nodes: new TotalDiagramNodesManager(),
+                    links: new TotalDiagramLinksManager()
+                });
+
+                // Create first node
+                const node1 = new NodeSquare({
+                    x: -150,
+                    y: -150
+                });
+                render.nodes.add(node1);
+
+                // Create second node
+                const node2 = new NodeSquare({
+                    x: 150,
+                    y: 150
+                });
+                render.nodes.add(node2);
+
+                // Create link between them
+                const link1 = new LinkLine({
+                    start: node1,
+                    end: node2
+                });
+                render.links.add(link1);
+
+                // Move to view central 0,0
+                render.center();
+
+            };
+        </script>
+
+    </body>
+</html>
