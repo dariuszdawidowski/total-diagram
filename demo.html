@@ -63,11 +63,11 @@
         <div id="container"></div>
 
         <!-- Total Diagram library -->
-        <script type="text/javascript" src="node.js" data-include="test"></script>
-        <script type="text/javascript" src="link.js" data-include="test"></script>
-        <script type="text/javascript" src="nodes.js" data-include="test"></script>
-        <script type="text/javascript" src="links.js" data-include="test"></script>
-        <script type="text/javascript" src="render.js" data-include="test"></script>
+        <script type="text/javascript" src="node.js"></script>
+        <script type="text/javascript" src="link.js"></script>
+        <script type="text/javascript" src="nodes.js"></script>
+        <script type="text/javascript" src="links.js"></script>
+        <script type="text/javascript" src="render.js"></script>
 
         <script>
 
@@ -95,13 +95,6 @@
 
                 constructor(args) {
                     super(args);
-
-                    // Link DOM element
-                    this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                    this.element.classList.add('link');
-
-                    // Copy ID onto DOM element
-                    this.element.dataset.id = this.id;
 
                     // SVG DOM element
                     this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');

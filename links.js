@@ -75,7 +75,7 @@ class TotalDiagramLinksManager {
 
         // Find link betwen two nodes
         if (node2) {
-            for (const link1 of node1.links.get()) {
+            for (const link1 of link.links.get()) {
                 for (const link2 of node2.links.get()) {
                     if (link1.id == link2.id) return link1;
                 }

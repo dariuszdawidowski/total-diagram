@@ -28,8 +28,12 @@ class TotalDiagramLink {
         this.end = args.end;
         this.end.addLink(this);
 
-        // HTML DOM element
-        this.element = null;
+        // SVG DOM element
+        this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        this.element.classList.add('link');
+
+        // Copy ID onto DOM element
+        this.element.dataset.id = this.id;
 
     }
 
