@@ -15,8 +15,8 @@ class TotalDiagramLinksManager {
 
     constructor() {
 
-        // Main anchor to attach to
-        this.board = null;
+        // Main manager reference
+        this.render = null;
 
         // Array for all links
         this.list = [];
@@ -37,7 +37,7 @@ class TotalDiagramLinksManager {
         this.list.push(link);
 
         // Add to DOM
-        this.board.append(link.element);
+        this.render.board.append(link.element);
 
     }
 

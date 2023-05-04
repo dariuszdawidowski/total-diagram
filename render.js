@@ -55,17 +55,15 @@ class TotalDiagramRenderHTML5 {
 
         // Nodes
         this.nodes = args.nodes;
-        this.nodes.board = this.board;
+        this.nodes.render = this;
 
         // Link
         this.links = args.links;
-        this.links.board = this.board;
+        this.links.render = this;
     }
 
     /**
      * Perform pan
-     * @param deltaX <Number>: move in x axis in pixels
-     * @param deltaY <Number>: move in y axis in pixels
      */
 
     pan(deltaX, deltaY) {

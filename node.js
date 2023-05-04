@@ -74,7 +74,8 @@ class TotalDiagramNode {
 
             // Unassign from a link
             del: (link) => {
-                arrayRemove(this.links.list, link);
+                const index = this.links.list.indexOf(link);
+                if (index !== -1) this.links.list.splice(index, 1);
             },
 
             // Get assigned link

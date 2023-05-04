@@ -15,8 +15,8 @@ class TotalDiagramNodesManager {
 
     constructor() {
 
-        // Main anchor to attach to
-        this.board = null;
+        // Main manager reference
+        this.render = null;
 
         // Array for all nodes
         this.list = [];
@@ -34,7 +34,7 @@ class TotalDiagramNodesManager {
         this.list.push(node);
 
         // Add to DOM
-        this.board.append(node.element);
+        this.render.board.append(node.element);
 
         // Call node awake function sice it's added into DOM tree
         node.awake();
@@ -50,11 +50,11 @@ class TotalDiagramNodesManager {
         // Single node
         if (node != '*') {
 
-            // Delete related links
-            let linksToDelete = node.links.get();
+            // First delete associated links on the copy of links list
+            let linksToDelete = node.links.get().slice();
             while (linksToDelete.length) {
                 const link = linksToDelete.pop();
-                this.links.del(link);
+                this.render.links.del(link);
             }
 
             // Local node's destructor
