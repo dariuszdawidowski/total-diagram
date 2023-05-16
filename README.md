@@ -11,18 +11,21 @@ Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer for web br
 v 0.9.2
 <p>
 
-## About
+[![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/release.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/release.yml)
+[![license](https://img.shields.io/github/license/dariuszdawidowski/total-diagram?color=9cf)](./LICENSE)
+
+# About
 
 A library for rendering diagrams consisting of nodes and links.
 Designed for simplicity, it can be the basis for creating a diagramming application or data representation on a website.
 For more details look into self-explanatory demo.html.
 
-## Features
+# Features
 
 - Vanilla JavaScript/ES8
 - No dependencies
 
-## Build minified bundle file
+# Build minified bundle file
 
 ```bash
 npm install
