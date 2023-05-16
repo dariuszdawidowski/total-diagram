@@ -5,10 +5,19 @@
 Total Diagram
 </h1>
 <p align="center">
-Simple, powerful, extensible and fast JavaScript/ES8 diagramming library.
+Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer.
 <p>
 <p align="center">
-v 0.9.1
+v 0.9.2
 <p>
 
-For more details look into demo.html.
+## About
+
+For more details look into self-explanatory demo.html.
+
+## Build minified bundle file
+
+npm install
+npm run build
+
+Note: This is browser-centric vanilla JavaScript library, npm is only used to minify and bundle files into one.
