@@ -12,6 +12,7 @@ v 0.9.2
 <p>
 
 [![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml)
+[![npm](https://img.shields.io/npm/v/total-diagram)](https://www.npmjs.com/package/total-diagram)
 [![license](https://img.shields.io/github/license/dariuszdawidowski/total-diagram?color=9cf)](./LICENSE)
 
 # About
