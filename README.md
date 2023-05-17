@@ -11,7 +11,7 @@ Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer for web br
 v 0.9.2
 <p>
 
-[![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/release.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/release.yml)
+[![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml)
 [![license](https://img.shields.io/github/license/dariuszdawidowski/total-diagram?color=9cf)](./LICENSE)
 
 # About
