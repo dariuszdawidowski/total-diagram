@@ -51,7 +51,7 @@ class TotalDiagramNodesManager {
         if (node != '*') {
 
             // First delete associated links
-            let linksToDelete = structuredClone(node.links.get());
+            let linksToDelete = structuredClone(node.links.get('*'));
             while (linksToDelete.length) {
                 const link = linksToDelete.pop();
                 this.render.links.del(link);
@@ -79,10 +79,13 @@ class TotalDiagramNodesManager {
      * Get nodes from scene
      */
 
-    get(node = 0) {
+    get(node) {
+
+        // All nodes
+        if (node == '*') return this.list;
 
         // Find one node by giving DOM element
-        if (node != null && typeof(node) == 'object') {
+        else if (node != null && typeof(node) == 'object') {
             // Traverse DOM
             let target = node;
             while (target.parentNode) {
@@ -93,9 +96,6 @@ class TotalDiagramNodesManager {
                 target = target.parentNode;
             }
         }
-
-        // All nodes
-        else if (node === 0) return this.list;
 
         // Find all nodes type by giving class
         else if (typeof(node) == 'function') return this.list.filter(n => n instanceof node);

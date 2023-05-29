@@ -79,9 +79,10 @@ class TotalDiagramNode {
             },
 
             // Get assigned link
-            get: (id = null) => {
+            get: (id) => {
+
                 // All links
-                if (id === null) return this.links.list;
+                if (id == '*') return this.links.list;
 
                 // Find one link by ID
                 else if (typeof(id) == 'string') {

@@ -71,20 +71,20 @@ class TotalDiagramLinksManager {
      * Get link(s)
      */
 
-    get(link = 0, node2 = null) {
+    get(link, node2 = null) {
+
+        // All links
+        if (link == '*') return this.list;
 
         // Find link betwen two nodes
-        if (node2) {
-            for (const link1 of link.links.get()) {
-                for (const link2 of node2.links.get()) {
+        else if (node2) {
+            for (const link1 of link.links.get('*')) {
+                for (const link2 of node2.links.get('*')) {
                     if (link1.id == link2.id) return link1;
                 }
             }
             return null;
         }
-
-        // All links
-        else if (link === 0) return this.list;
 
         // Find one link by giving ID
         else if (typeof(link) == 'string') return this.list.find(n => n.element.dataset.id == link);
