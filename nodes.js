@@ -51,7 +51,7 @@ class TotalDiagramNodesManager {
         if (node != '*') {
 
             // First delete associated links
-            let linksToDelete = structuredClone(node.links.get('*'));
+            let linksToDelete = node.links.get('*');
             while (linksToDelete.length) {
                 const link = linksToDelete.pop();
                 this.render.links.del(link);
