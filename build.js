@@ -20,4 +20,4 @@ const minjs = async (filePath) => {
 };
 
 ejs.render(fs.readFileSync('total-diagram.js.ejs', 'utf8'), { minjs }, { async: true })
-.then(output => fs.writeFileSync('total-diagram.js', output, 'utf8'));
+.then(output => fs.writeFileSync('dist/total-diagram.js', output, 'utf8'));
