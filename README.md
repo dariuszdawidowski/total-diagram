@@ -6,10 +6,10 @@ Total Diagram
 </h1>
 <p align="center">
 Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer for web browsers.
-<p>
+</p>
 <p align="center">
 v0.9.3
-<p>
+</p>
 
 [![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml)
 [![npm](https://img.shields.io/npm/v/total-diagram)](https://www.npmjs.com/package/total-diagram)
@@ -20,7 +20,7 @@ v0.9.3
 A library for rendering diagrams consisting of nodes and links.
 Designed for simplicity, it can be the basis for creating a diagramming application or data representation on a website.
 
-For more details look into examples/ directory. You can find self-explanatory tutorials there.
+For more details look into 'examples/' directory. You can find self-explanatory tutorials there.
 
 # Features
 
@@ -33,4 +33,12 @@ For more details look into examples/ directory. You can find self-explanatory tu
 npm install
 npm run build
 ```
-Note: This is browser-centric vanilla JavaScript library, npm is only used to minify and bundle files into one.
+Note: This is browser-centric vanilla JavaScript library, npm is only used to minify and bundle files.
+
+# Load from CDN
+
+https://unpkg.com/total-diagram@latest/dist/total-diagram.js
+
+# Authors
+
+Dariusz Dawidowski
