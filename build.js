@@ -1,10 +1,14 @@
 /**
- * Build script
+ * Build script v6-custom
  */
 
+const files = [
+    { src: 'total-diagram.js.ejs', dst: 'total-diagram.js' },
+];
+
 const fs = require('fs');
-const ejs = require('ejs');
 const { readFile } = require('fs').promises;
+const ejs = require('ejs');
 const { minify } = require('terser');
 
 const minjs = async (filePath) => {
@@ -19,5 +23,11 @@ const minjs = async (filePath) => {
     }
 };
 
-ejs.render(fs.readFileSync('total-diagram.js.ejs', 'utf8'), { minjs }, { async: true })
-.then(output => fs.writeFileSync('dist/total-diagram.js', output, 'utf8'));
+if (!fs.existsSync('dist')) fs.mkdirSync('dist');
+
+files.forEach((file) => {
+
+    ejs.render(fs.readFileSync(file.src, 'utf8'), { minjs }, {async: true})
+        .then(output => fs.writeFileSync('dist/' + file.dst, output, 'utf8'));
+
+});
