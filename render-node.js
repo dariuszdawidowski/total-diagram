@@ -146,6 +146,7 @@ class TotalDiagramNode {
         if ('maxWidth' in size) this.transform.wmax = size.maxWidth;
         if ('maxHeight' in size) this.transform.hmax = size.maxHeight;
         if ('border' in size) this.transform.border = size.border;
+        else this.transform.border = getComputedStyle(this.element, null).getPropertyValue('border-left-width').pxToInt();
         this.setOrigin();
         this.element.style.width = this.transform.w + 'px';
         this.element.style.height = this.transform.h + 'px';
