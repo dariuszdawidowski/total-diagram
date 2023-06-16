@@ -64,6 +64,8 @@ class TotalDiagramRenderHTML5 {
 
     /**
      * Perform pan
+     * @param deltaX: change x
+     * @param deltaY: change y
      */
 
     pan(deltaX, deltaY) {
@@ -74,6 +76,10 @@ class TotalDiagramRenderHTML5 {
 
     /**
      * Perform zoom
+     * @param x: x position
+     * @param y: y position
+     * @param deltaZ: zoom change
+     * @param factorZ: multplier
      */
 
     zoom(x, y, deltaZ, factorZ) {
@@ -92,6 +98,11 @@ class TotalDiagramRenderHTML5 {
 
     /**
      * Perform mobile zoom
+     * @param x1: finger 1 x position
+     * @param y1: finger 1 y position
+     * @param x2: finger 2 x position
+     * @param y2: finger 2 y position
+     * @param deltaZ: zoom change
      */
 
     pinchZoom(x1, y1, x2, y2, deltaZ) {
@@ -110,7 +121,7 @@ class TotalDiagramRenderHTML5 {
 
     /**
      * Convert window coordinates to world
-     * {x: ..., y: ...}
+     * @param coords {x: <Number>, y: <Number>}
      */
 
     screen2World(coords) {
@@ -122,7 +133,7 @@ class TotalDiagramRenderHTML5 {
 
     /**
      * Convert world coordinates to window
-     * {x: ..., y: ...}
+     * @param coords {x: <Number>, y: <Number>}
      */
 
     world2Screen(coords) {
@@ -134,9 +145,9 @@ class TotalDiagramRenderHTML5 {
 
     /**
      * Reset to origin
-     * z: 'none' (don't zoom) | 'reset': standard zoom | 'focus': zoom to node size
-     * animation: 'hard' | 'smooth'
-     * rect: {width, height: dimensions of the focus target}
+     * @param z: 'none' (don't zoom) | 'reset': standard zoom | 'focus': zoom to node size
+     * @param animation: 'hard' | 'smooth'
+     * @param rect: {width, height: dimensions of the focus target}
      */
 
     center(coords = {x: 0, y: 0}, z = 'none', animation = 'hard', rect = null) {
@@ -178,11 +189,11 @@ class TotalDiagramRenderHTML5 {
 
     /**
      * Render update
+     * Note: use 'transform' since PYQt6 doesn't support separate 'translate' and 'scale' yet
      */
 
     update() {
         // Calculate board's position
-        // Note: using 'transform' since PYQt6 doesn't support new css 'translate' and 'scale' yet
         this.board.style.transform = `translate(${this.offset.x}px, ${this.offset.y}px) scale(${this.offset.z})`;
     }
 
