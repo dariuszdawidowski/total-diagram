@@ -80,6 +80,15 @@
                 border-radius: 8px;
             }
 
+            .socket {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background-color: #fff5f5;
+                border: 2px solid #f19331;
+                border-radius: 50%;
+            }
+
             .link {
                 position: absolute;
                 left: 0;
@@ -88,9 +97,9 @@
                 z-index: -1;
             }
 
-            .link line {
+            .link path {
                 pointer-events: none;
-                fill: #e88f56;
+                fill: none;
                 stroke: #e88f56;
                 stroke-width: 2;
             }
@@ -100,8 +109,8 @@
     <body>
         <!-- Main diagram container -->
         <div id="container">
-            <h3>2: Node demo</h3>
-            <p>How to make and style custom nodes.</p>
+            <h3>3: Link demo</h3>
+            <p>How to make custom and stylized link connected to node's socket.</p>
         </div>
 
         <!-- Total Diagram library -->
@@ -112,6 +121,42 @@
         <script type="text/javascript" src="../render.js"></script>
 
         <script>
+
+            // Socket definition
+
+            class SocketPoint {
+
+                constructor(args) {
+
+                    // Store parent
+                    this.parent = args.parent;
+
+                    // Main element
+                    this.element = document.createElement('div');
+                    this.element.classList.add('socket');
+                    args.parent.element.append(this.element);
+
+                    // Position
+                    this.position = args.pos;            
+                    if ('top' in args.pos) this.element.style.top = args.pos.top + 'px';
+                    if ('left' in args.pos) this.element.style.left = args.pos.left + 'px';
+                    if ('right' in args.pos) this.element.style.right = args.pos.right + 'px';
+
+                }
+
+                getWorldPosition() {
+                    let x = 0;
+                    let y = this.parent.transform.y - (this.parent.transform.h / 2) + this.position.top + 5;
+                    if ('left' in this.position) {
+                        x = this.parent.transform.x - (this.parent.transform.w / 2) + this.position.left + 5;
+                    }
+                    else if ('right' in this.position) {
+                        x = this.parent.transform.x + (this.parent.transform.w / 2) + this.position.right + 5;
+                    }
+                    return {x, y};
+                }
+
+            }
 
             // More advanced node definition
 
@@ -145,6 +190,16 @@
                         });
                     }
 
+                    // Sockets
+                    this.socketIn = new SocketPoint({
+                        parent: this,
+                        pos: {left: -5, top: 11}
+                    });
+                    this.socketOut = new SocketPoint({
+                        parent: this,
+                        pos: {right: -5, top: 11}
+                    });
+
                     // Size
                     this.setSize({width: 200, height: 300});
 
@@ -153,26 +208,55 @@
                 }
             }
 
-            // Default link definition
+            // Bezier curve link definition
 
-            class LinkLine extends TotalDiagramLink {
+            class LinkBezier extends TotalDiagramLink {
 
                 constructor(args) {
                     super(args);
 
                     // SVG DOM element
-                    this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                    this.element.appendChild(this.line);
+                    this.path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    this.element.appendChild(this.path);
+
+                    // Curvature
+                    this.curvature = 0.5;
 
                     // Update
                     this.update();
                 }
 
                 update() {
-                    this.line.setAttribute('x1', this.start.transform.x);
-                    this.line.setAttribute('y1', this.start.transform.y);
-                    this.line.setAttribute('x2', this.end.transform.x);
-                    this.line.setAttribute('y2', this.end.transform.y);
+
+                    // Start & end position
+                    const startPos = this.start.socketOut.getWorldPosition();
+                    const endPos = this.end.socketIn.getWorldPosition();
+                    let x1 = 0;
+                    let y1 = 0;
+                    let x2 = 0;
+                    let y2 = 0;
+
+                    // Left -> right
+                    if (this.start.transform.x <= this.end.transform.x) {
+                        x1 = startPos.x;
+                        y1 = startPos.y;
+                        x2 = endPos.x;
+                        y2 = endPos.y;
+                    }
+
+                    // Right -> left
+                    else {
+                        x1 = endPos.x;
+                        y1 = endPos.y;
+                        x2 = startPos.x;
+                        y2 = startPos.y;
+                    }
+
+                    // Calculate & render
+                    const hx1 = x1 + Math.abs(x2 - x1) * this.curvature;
+                    const hx2 = x2 - Math.abs(x2 - x1) * this.curvature;
+                    const angle = Math.atan2(y2 - y1, ((x2 + hx2) / 2) - ((x1 + hx1) / 2));
+                    this.path.setAttribute('d', `M ${x1} ${y1} C ${hx1} ${y1} ${hx2} ${y2} ${x2} ${y2}`);
                 }
 
             }
@@ -219,7 +303,7 @@
                 render.nodes.add(node2);
 
                 // Create link between them
-                const link1 = new LinkLine({
+                const link1 = new LinkBezier({
                     start: node1,
                     end: node2
                 });
