@@ -8,7 +8,7 @@ Total Diagram
 Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer for web browsers.
 </p>
 <p align="center">
-v0.9.4
+v0.9.5
 </p>
 
 [![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml)
@@ -19,6 +19,10 @@ v0.9.4
 
 A library for rendering diagrams consisting of nodes and links.
 Designed for simplicity, it can be the basis for creating a diagramming application or data representation on a website.
+
+<img src="./total-diagram-showcase.png" alt="" />
+
+# Quick Start
 
 For more details look into 'examples/' directory. You can find self-explanatory tutorials there.
 
