@@ -43,8 +43,40 @@
 
             .node {
                 display: flex;
+                flex-direction: column;
                 position: absolute;
-                background-color: #e88f56;
+                background-color: white;
+                border-radius: 8px;
+            }
+
+            .node .titlebar {
+                color: white;
+                background-color: #f19331;
+                width: 100%;
+                height: 35px;
+                line-height: 35px;
+                text-align: center;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 8px 8px 0 0;
+            }
+
+            .node .header {
+                color: #222;
+                text-align: left;
+                font-size: 14px;
+                margin: 12px 16px;
+                font-weight: bold;
+            }
+
+            .node .option {
+                color: #222;
+                background-color: #fff5f5;
+                text-align: left;
+                font-size: 14px;
+                margin: 8px 16px 0 16px;
+                padding: 10px;
+                border-radius: 8px;
             }
 
             .link {
@@ -57,8 +89,8 @@
 
             .link line {
                 pointer-events: none;
-                fill: #fff;
-                stroke: #fff;
+                fill: #e88f56;
+                stroke: #e88f56;
                 stroke-width: 2;
             }
 
@@ -67,8 +99,8 @@
     <body>
         <!-- Main diagram container -->
         <div id="container">
-            <h3>1: Basic demo</h3>
-            <p>How to create two nodes and link them.</p>
+            <h3>2: Node demo</h3>
+            <p>How to make and style custom nodes.</p>
         </div>
 
         <!-- Total Diagram library -->
@@ -82,7 +114,7 @@
 
             // Default node definition
 
-            class NodeSquare extends TotalDiagramNode {
+            class NodeMoreAdvanced extends TotalDiagramNode {
 
                 constructor(args) {
                     super(args);
@@ -90,8 +122,30 @@
                     // Class
                     this.element.classList.add('node');
 
+                    // Title bar
+                    this.titlebar = document.createElement('div');
+                    this.titlebar.classList.add('titlebar');
+                    this.titlebar.innerText = args.title || 'Node';
+                    this.element.append(this.titlebar);
+
+                    // Header
+                    this.header = document.createElement('div');
+                    this.header.classList.add('header');
+                    this.header.innerText = args.header || 'Header';
+                    this.element.append(this.header);
+
+                    // Options
+                    if ('options' in args) {
+                        args.options.forEach(text => {
+                            const option = document.createElement('div');
+                            option.classList.add('option');
+                            option.innerHTML = text;
+                            this.element.append(option);
+                        });
+                    }
+
                     // Size
-                    this.setSize({width: 50, height: 50});
+                    this.setSize({width: 200, height: 300});
 
                     // Update
                     this.update();
@@ -134,16 +188,32 @@
                 });
 
                 // Create first node
-                const node1 = new NodeSquare({
-                    x: -150,
-                    y: -150
+                const node1 = new NodeMoreAdvanced({
+                    title: 'Node #1',
+                    header: 'Options for node 1:',
+                    options: [
+                        '<b>Option 1:</b> Hello',
+                        '<b>Option 2:</b> World',
+                        '<b>Option 3:</b> Lorem',
+                        '<b>Option 4:</b> Ipsum'
+                    ],
+                    x: -200,
+                    y: -50
                 });
                 render.nodes.add(node1);
 
                 // Create second node
-                const node2 = new NodeSquare({
-                    x: 150,
-                    y: 150
+                const node2 = new NodeMoreAdvanced({
+                    title: 'Node #2',
+                    header: 'Options for node 2:',
+                    options: [
+                        '<b>Option 1:</b> Hello',
+                        '<b>Option 2:</b> World',
+                        '<b>Option 3:</b> Lorem',
+                        '<b>Option 4:</b> Ipsum'
+                    ],
+                    x: 200,
+                    y: 50
                 });
                 render.nodes.add(node2);
 
