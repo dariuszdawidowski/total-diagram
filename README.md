@@ -13,6 +13,7 @@ v0.9.5
 
 [![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml)
 [![npm](https://img.shields.io/npm/v/total-diagram)](https://www.npmjs.com/package/total-diagram)
+[![NPM Downloads](https://img.shields.io/npm/dm/total-diagram)](https://www.npmjs.com/package/total-diagram)
 [![license](https://img.shields.io/github/license/dariuszdawidowski/total-diagram?color=9cf)](./LICENSE)
 
 # About
@@ -20,11 +21,20 @@ v0.9.5
 A library for rendering diagrams consisting of nodes and links.
 Designed for simplicity, it can be the basis for creating a diagramming application or data representation on a website.
 
-<img src="./total-diagram-showcase.png" alt="" />
+<img src="https://raw.githubusercontent.com/dariuszdawidowski/total-diagram/main/total-diagram-showcase.png" alt="" />
 
 # Quick Start
 
 For more details look into 'examples/' directory. You can find self-explanatory tutorials there.
+
+# Philosophy behind the library
+
+Does the world need yet another library for displaying diagrams?
+I tried most of them and the problem I encountered was that I couldn't realize my idea because it was inconsistent with the vision of the creators of the library.
+The bigger and more complicated the library becomes, the less flexible it is proportionally.
+The basis of this project is very clean and simple, no need to complicate it.
+The first thing you should do is analyze all the files in the 'examples' directory, which are a kind of tutorial on how to build your own diagramming system based on this solution.
+If you are looking for an example of building a larger system based on this library, see the project https://github.com/dariuszdawidowski/metaviz-editor.
 
 # Features
 
