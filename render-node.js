@@ -219,24 +219,6 @@ class TotalDiagramNode {
     }
 
     /**
-     * Add link
-     * link: TotalDiagramLink object
-     */
-
-    addLink(link) {
-        this.links.add(link);
-    }
-
-    /**
-     * Delete link
-     * link: TotalDiagramLink object
-     */
-
-    delLink(link) {
-        this.links.del(link);
-    }
-
-    /**
      * Style
      */
 

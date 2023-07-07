@@ -22,11 +22,11 @@ class TotalDiagramLink {
 
         // Start Node
         this.start = args.start;
-        this.start.addLink(this);
+        this.start.links.add(this);
 
         // End Node
         this.end = args.end;
-        this.end.addLink(this);
+        this.end.links.add(this);
 
         // SVG DOM element
         this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -43,8 +43,8 @@ class TotalDiagramLink {
 
     destructor() {
         // Remove references in related nodes
-        if (this.start) this.start.delLink(this);
-        if (this.end) this.end.delLink(this);
+        if (this.start) this.start.links.del(this);
+        if (this.end) this.end.links.del(this);
     }
 
     /**
