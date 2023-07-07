@@ -78,11 +78,17 @@ class TotalDiagramNode {
                 if (index !== -1) this.links.list.splice(index, 1);
             },
 
-            // Get assigned link
+            // Get connected link(s)
             get: (id) => {
 
                 // All links
                 if (id == '*') return this.links.list;
+
+                // Input links
+                else if (id == 'in') return this.links.list.filter(l => l.end.id == this.id);
+
+                // Output links
+                else if (id == 'out') return this.links.list.filter(l => l.start.id == this.id);
 
                 // Find one link by ID
                 else if (typeof(id) == 'string') {
