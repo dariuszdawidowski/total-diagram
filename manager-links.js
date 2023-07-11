@@ -39,6 +39,10 @@ class TotalDiagramLinksManager {
         // Add to DOM
         this.render.board.append(link.element);
 
+        // Broadcast creation event
+        const event = new CustomEvent('broadcast:addlink', { detail: link });
+        this.render.container.dispatchEvent(event);
+
     }
 
     /**
@@ -58,11 +62,28 @@ class TotalDiagramLinksManager {
             // Remove from list
             const index = this.list.indexOf(link);
             if (index !== -1) this.list.splice(index, 1);
+
+            // Broadcast delete event
+            const event = new CustomEvent('broadcast:dellink', { detail: link });
+            this.render.container.dispatchEvent(event);
         }
 
         // Remove all links
         else {
+
+            // All list
+            this.list.forEach(l => {
+                l.destructor();
+                l.element.remove();
+            });
+
+            // Delete
             this.list.length = 0;
+
+            // Broadcast delete event
+            const event = new CustomEvent('broadcast:delnodes', { detail: '*' });
+            this.render.container.dispatchEvent(event);
+
         }
 
     }

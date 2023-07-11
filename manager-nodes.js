@@ -39,6 +39,10 @@ class TotalDiagramNodesManager {
         // Call node awake function sice it's added into DOM tree
         node.awake();
 
+        // Broadcast creation event
+        const event = new CustomEvent('broadcast:addnode', { detail: node });
+        this.render.container.dispatchEvent(event);
+
     }
 
     /**
@@ -51,7 +55,7 @@ class TotalDiagramNodesManager {
         if (node != '*') {
 
             // First delete associated links
-            let linksToDelete = node.links.get('*');
+            const linksToDelete = node.links.get('*');
             while (linksToDelete.length) {
                 const link = linksToDelete.pop();
                 this.render.links.del(link);
@@ -66,11 +70,28 @@ class TotalDiagramNodesManager {
             // Remove from list
             const index = this.list.indexOf(node);
             if (index !== -1) this.list.splice(index, 1);
+
+            // Broadcast delete event
+            const event = new CustomEvent('broadcast:delnode', { detail: node });
+            this.render.container.dispatchEvent(event);
         }
 
         // Clear all on the list
         else if (node == '*') {
+
+            // All list
+            this.list.forEach(n => {
+                n.destructor();
+                n.element.remove();
+            });
+
+            // Delete
             this.list.length = 0;
+
+            // Broadcast delete event
+            const event = new CustomEvent('broadcast:delnodes', { detail: '*' });
+            this.render.container.dispatchEvent(event);
+
         }
 
     }
