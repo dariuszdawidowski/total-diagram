@@ -284,7 +284,6 @@
                 container.addEventListener('mousewheel', (event) => {
                     event.preventDefault();
                     render.zoom(event.pageX, event.pageY, event.deltaY, 50);
-                    console.log(event.pageX, event.pageY, event.deltaY);
                 } );
                 
             }
@@ -292,7 +291,6 @@
             // Start
 
             window.onload = function() {
-
 
                 // Create managers
                 const render = new TotalDiagramRenderHTML5({
