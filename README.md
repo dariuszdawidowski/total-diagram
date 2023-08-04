@@ -55,5 +55,5 @@ https://unpkg.com/total-diagram@latest/dist/total-diagram.js
 
 # Authors
 
-Dariusz Dawidowski 
+Dariusz Dawidowski\
 Jagoda Dawidowska
