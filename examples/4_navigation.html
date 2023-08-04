@@ -1,0 +1,344 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Total Diagram Demo</title>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+
+            html, body {
+                width: 100%;    
+                height: 100%;
+                margin: 0;
+            }
+
+            #container {
+                position: relative;
+                margin: 0 auto;
+                display: block;
+                background-color: #060531;
+                width: 100%;
+                min-width: 640px;
+                height: 100%;
+                min-height: 480px;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                touch-action: none;
+                overflow: hidden;
+                font-family: Arial, sans-serif;
+            }
+
+            h3, p {
+                color: white;
+                text-align: center;
+            }
+
+            .node {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                background-color: white;
+                border-radius: 8px;
+                border-bottom: 10px solid #f19331;
+            }
+
+            .node .titlebar {
+                color: white;
+                background-color: #f19331;
+                width: 100%;
+                height: 35px;
+                line-height: 35px;
+                text-align: center;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 8px 8px 0 0;
+            }
+
+            .node .header {
+                color: #222;
+                text-align: left;
+                font-size: 14px;
+                margin: 12px 16px;
+                font-weight: bold;
+            }
+
+            .node .option {
+                color: #222;
+                background-color: #fff5f5;
+                text-align: left;
+                font-size: 14px;
+                margin: 8px 16px 0 16px;
+                padding: 10px;
+                border-radius: 8px;
+            }
+
+            .socket {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background-color: #fff5f5;
+                border: 2px solid #f19331;
+                border-radius: 50%;
+            }
+
+            .link {
+                position: absolute;
+                left: 0;
+                top: 0;
+                overflow: visible;
+                z-index: -1;
+            }
+
+            .link path {
+                pointer-events: none;
+                fill: none;
+                stroke: #e88f56;
+                stroke-width: 2;
+            }
+
+        </style>
+    </head>
+    <body>
+        <!-- Main diagram container -->
+        <div id="container">
+            <h3>4: Navigation demo</h3>
+            <p>How to navigate (pan and zoom) using mouse.</p>
+        </div>
+
+        <!-- Total Diagram library -->
+        <script type="text/javascript" src="../render-node.js"></script>
+        <script type="text/javascript" src="../render-link.js"></script>
+        <script type="text/javascript" src="../manager-nodes.js"></script>
+        <script type="text/javascript" src="../manager-links.js"></script>
+        <script type="text/javascript" src="../render.js"></script>
+
+        <script>
+
+            // Socket definition
+
+            class SocketPoint {
+
+                constructor(args) {
+
+                    // Store parent
+                    this.parent = args.parent;
+
+                    // Main element
+                    this.element = document.createElement('div');
+                    this.element.classList.add('socket');
+                    args.parent.element.append(this.element);
+
+                    // Position
+                    this.position = args.pos;            
+                    if ('top' in args.pos) this.element.style.top = args.pos.top + 'px';
+                    if ('left' in args.pos) this.element.style.left = args.pos.left + 'px';
+                    if ('right' in args.pos) this.element.style.right = args.pos.right + 'px';
+
+                }
+
+                getWorldPosition() {
+                    let x = 0;
+                    let y = this.parent.transform.y - (this.parent.transform.h / 2) + this.position.top + 5;
+                    if ('left' in this.position) {
+                        x = this.parent.transform.x - (this.parent.transform.w / 2) + this.position.left + 5;
+                    }
+                    else if ('right' in this.position) {
+                        x = this.parent.transform.x + (this.parent.transform.w / 2) + this.position.right + 5;
+                    }
+                    return {x, y};
+                }
+
+            }
+
+            // More advanced node definition
+
+            class NodeMoreAdvanced extends TotalDiagramNode {
+
+                constructor(args) {
+                    super(args);
+
+                    // Class
+                    this.element.classList.add('node');
+
+                    // Title bar
+                    this.titlebar = document.createElement('div');
+                    this.titlebar.classList.add('titlebar');
+                    this.titlebar.innerText = args.title || 'Node';
+                    this.element.append(this.titlebar);
+
+                    // Header
+                    this.header = document.createElement('div');
+                    this.header.classList.add('header');
+                    this.header.innerText = args.header || 'Header';
+                    this.element.append(this.header);
+
+                    // Options
+                    if ('options' in args) {
+                        args.options.forEach(text => {
+                            const option = document.createElement('div');
+                            option.classList.add('option');
+                            option.innerHTML = text;
+                            this.element.append(option);
+                        });
+                    }
+
+                    // Sockets
+                    this.socketIn = new SocketPoint({
+                        parent: this,
+                        pos: {left: -5, top: 11}
+                    });
+                    this.socketOut = new SocketPoint({
+                        parent: this,
+                        pos: {right: -5, top: 11}
+                    });
+
+                    // Size
+                    this.setSize({width: 200, height: 300});
+
+                    // Update
+                    this.update();
+                }
+            }
+
+            // Bezier curve link definition
+
+            class LinkBezier extends TotalDiagramLink {
+
+                constructor(args) {
+                    super(args);
+
+                    // SVG DOM element
+                    this.path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    this.element.appendChild(this.path);
+
+                    // Curvature
+                    this.curvature = 0.5;
+
+                    // Update
+                    this.update();
+                }
+
+                update() {
+
+                    // Start & end position
+                    const startPos = this.start.socketOut.getWorldPosition();
+                    const endPos = this.end.socketIn.getWorldPosition();
+                    let x1 = 0;
+                    let y1 = 0;
+                    let x2 = 0;
+                    let y2 = 0;
+
+                    // Left -> right
+                    if (this.start.transform.x <= this.end.transform.x) {
+                        x1 = startPos.x;
+                        y1 = startPos.y;
+                        x2 = endPos.x;
+                        y2 = endPos.y;
+                    }
+
+                    // Right -> left
+                    else {
+                        x1 = endPos.x;
+                        y1 = endPos.y;
+                        x2 = startPos.x;
+                        y2 = startPos.y;
+                    }
+
+                    // Calculate & render
+                    const hx1 = x1 + Math.abs(x2 - x1) * this.curvature;
+                    const hx2 = x2 - Math.abs(x2 - x1) * this.curvature;
+                    const angle = Math.atan2(y2 - y1, ((x2 + hx2) / 2) - ((x1 + hx1) / 2));
+                    this.path.setAttribute('d', `M ${x1} ${y1} C ${hx1} ${y1} ${hx2} ${y2} ${x2} ${y2}`);
+                }
+
+            }
+
+
+            function initEvents(render) {
+                const container = document.querySelector('#container');
+                let state = 0;
+
+                container.addEventListener('mousedown', (event) => {
+                    state = 1;
+                } );
+
+                container.addEventListener('mousemove', (event) => {
+                  
+                    if (state == 1) {
+                        render.pan(event.movementX, event.movementY);
+                    }
+                });
+
+                container.addEventListener('mouseup', (event) => {
+                    state = 0;
+                } );
+                
+            }
+
+            // Start
+
+            window.onload = function() {
+
+
+                // Create managers
+                const render = new TotalDiagramRenderHTML5({
+                    container: document.getElementById('container'),
+                    nodes: new TotalDiagramNodesManager(),
+                    links: new TotalDiagramLinksManager()
+                });
+
+                initEvents(render);
+
+                // Create first node
+                const node1 = new NodeMoreAdvanced({
+                    title: 'Node #1',
+                    header: 'Options for node 1:',
+                    options: [
+                        '<b>Option 1:</b> Hello',
+                        '<b>Option 2:</b> World',
+                        '<b>Option 3:</b> Lorem',
+                        '<b>Option 4:</b> Ipsum'
+                    ],
+                    x: -200,
+                    y: -50
+                });
+                render.nodes.add(node1);
+
+                // Create second node
+                const node2 = new NodeMoreAdvanced({
+                    title: 'Node #2',
+                    header: 'Options for node 2:',
+                    options: [
+                        '<b>Option 1:</b> Hello',
+                        '<b>Option 2:</b> World',
+                        '<b>Option 3:</b> Lorem',
+                        '<b>Option 4:</b> Ipsum'
+                    ],
+                    x: 200,
+                    y: 50
+                });
+                render.nodes.add(node2);
+
+                // Create link between them
+                const link1 = new LinkBezier({
+                    start: node1,
+                    end: node2
+                });
+                render.links.add(link1);
+
+                // Move to view central 0,0
+                render.center();
+
+            };
+        </script>
+
+    </body>
+</html>
