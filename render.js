@@ -84,7 +84,7 @@ class TotalDiagramRenderHTML5 {
 
     zoom(x, y, deltaZ, factorZ) {
         let deltaZoom = this.offset.z;
-        this.offset.z = (this.offset.z - (deltaZ / factorZ) * this.offset.z).clamp(0.1, 3.0);
+        this.offset.z = Math.max(0.1, Math.min(3.0, this.offset.z - (deltaZ / factorZ) * this.offset.z));
         deltaZoom = this.offset.z / deltaZoom;
 
         const boundingRect = this.board.getBoundingClientRect();
@@ -107,7 +107,7 @@ class TotalDiagramRenderHTML5 {
 
     pinchZoom(x1, y1, x2, y2, deltaZ) {
         let deltaZoom = this.offset.z;
-        this.offset.z = (this.offset.z * deltaZ).clamp(0.1, 3.0);
+        this.offset.z = Math.max(0.1,Math.min(3.0, this.offset.z * deltaZ));
         deltaZoom = this.offset.z / deltaZoom;
 
         const boundingRect = this.board.getBoundingClientRect();
