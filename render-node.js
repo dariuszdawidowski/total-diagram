@@ -65,11 +65,14 @@ class TotalDiagramNode {
         // Links
         this.links = {
 
-            list: [], // [TotalDiagramLink, ...]
+            // List of links [TotalDiagramLink, ...]
+            list: [],
 
             // Assign to link
             add: (link) => {
-                this.links.list.push(link);
+                // Maybe already added during blossoming
+                const index = this.links.list.indexOf(link);
+                if (index === -1) this.links.list.push(link);
             },
 
             // Unassign from a link
