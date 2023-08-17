@@ -1,0 +1,263 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Total Diagram Demo</title>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+
+            html, body {
+                width: 100%;    
+                height: 100%;
+                margin: 0;
+            }
+
+            #container {
+                position: relative;
+                margin: 0 auto;
+                display: block;
+                background-color: #060531;
+                width: 100%;
+                min-width: 640px;
+                height: 100%;
+                min-height: 480px;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                touch-action: none;
+                overflow: hidden;
+                font-family: Arial, sans-serif;
+            }
+
+            h3, p {
+                color: white;
+                text-align: center;
+            }
+
+            .panel {
+                text-align: center;
+                color: white;
+                margin: 30px auto;
+            }
+
+            .node {
+                display: flex;
+                position: absolute;
+                color: #552603;
+                background-color: #e88f56;
+                border: 2px solid transparent;
+                border-radius: 50%;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+            }
+
+            .node.selected {
+                color: #fbfbfb;;
+                background-color: #eeab81;
+                border: 2px solid #ffc758;
+                box-shadow: 0 0 20px white;
+            }
+
+            .link {
+                position: absolute;
+                left: 0;
+                top: 0;
+                overflow: visible;
+                z-index: -1;
+            }
+
+            .link line {
+                pointer-events: none;
+                fill: #fff;
+                stroke: #fff;
+                stroke-width: 2;
+            }
+
+        </style>
+    </head>
+    <body>
+        <!-- Main diagram container -->
+        <div id="container">
+            <h3>5: Traversal demo</h3>
+            <p>How to use graph travesal query language system to select nodes.</p>
+            <div class="panel">
+                Select mode <select id="mode">
+                    <option>Single</option>
+                    <option>All</option>
+                    <option>Closest siblings</option>
+                    <option>Up to tree</option>
+                    <option>Down to tree</option>
+                </select> and click any node below
+            </div>
+        </div>
+
+        <!-- Total Diagram library -->
+        <script type="text/javascript" src="../gremlin.js"></script>
+        <script type="text/javascript" src="../render-node.js"></script>
+        <script type="text/javascript" src="../render-link.js"></script>
+        <script type="text/javascript" src="../manager-nodes.js"></script>
+        <script type="text/javascript" src="../manager-links.js"></script>
+        <script type="text/javascript" src="../render.js"></script>
+
+        <script>
+
+            // Default node definition
+
+            class NodeBall extends TotalDiagramNode {
+
+                constructor(args) {
+                    super(args);
+
+                    // Class
+                    this.element.classList.add('node');
+
+                    // Size
+                    this.setSize({width: 30, height: 30});
+
+                    // Inner text
+                    if ('text' in args) this.element.innerHTML = args.text;
+
+                    // Update
+                    this.update();
+
+                    // On click event
+                    if ('callback' in args) this.element.addEventListener('click', () => { args.callback(this.id) });
+                }
+            }
+
+            // Default link definition
+
+            class LinkLine extends TotalDiagramLink {
+
+                constructor(args) {
+                    super(args);
+
+                    // SVG DOM element
+                    this.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    this.element.appendChild(this.line);
+
+                    // Update
+                    this.update();
+                }
+
+                update() {
+                    this.line.setAttribute('x1', this.start.transform.x);
+                    this.line.setAttribute('y1', this.start.transform.y);
+                    this.line.setAttribute('x2', this.end.transform.x);
+                    this.line.setAttribute('y2', this.end.transform.y);
+                }
+
+            }
+
+            // Main class
+
+            class Main {
+
+                constructor() {
+
+                    // Create managers
+                    this.render = new TotalDiagramRenderHTML5({
+                        container: document.getElementById('container'),
+                        nodes: new TotalDiagramNodesManager(),
+                        links: new TotalDiagramLinksManager()
+                    });
+
+                    // Create random diagram
+                    this.spawnNodes();
+
+                    // Move to view central 0,0
+                    this.render.center();
+
+                }
+
+                // Spawn
+
+                spawnNodes() {
+
+                    // Random spawn nodes
+                    for (let i = 0; i < 20; i++) {
+
+                        const node = new NodeBall({
+                            x: this.randomRangeInt(-400, 400),
+                            y: this.randomRangeInt(-400, 200),
+                            text: this.randomLetter(),
+                            callback: this.nodeClicked.bind(this)
+                        });
+                        this.render.nodes.add(node);
+
+                    }
+
+                    // Random links
+                    for (let i = 0; i < 20; i++) {
+                        const node1 = this.render.nodes.list[this.randomRangeInt(0, this.render.nodes.list.length - 1)];
+                        const node2 = this.render.nodes.list[this.randomRangeInt(0, this.render.nodes.list.length - 1)];
+                        if (node1.id == node2.id) continue;
+                        const link = new LinkLine({
+                            start: node1,
+                            end: node2
+                        });
+                        this.render.links.add(link);
+                    }
+
+                }
+
+                // Utils
+
+                randomRangeInt(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+
+                randomLetter() {
+                    const randomIndex = Math.floor(Math.random() * 26);
+                    const randomLetter = String.fromCharCode(65 + randomIndex);
+                    return randomLetter;
+                }
+
+                // Render nodes
+
+                nodesClear() {
+                    document.querySelectorAll('.node').forEach(node => {
+                        node.classList.remove('selected');
+                    });
+                }
+
+                nodeClicked(id) {
+                    this.nodesClear();
+
+                    const mode = document.querySelector('#mode');
+                    switch (mode.value) {
+                        case 'Single':
+                            const node = this.render.g.V(id).next();
+                            if (node) node.element.classList.add('selected');
+                            break;
+                        case 'All':
+                            for (const node of this.render.g.V().toList()) {
+                                node.element.classList.add('selected');
+                            }
+                            break;
+                    }
+
+                }
+
+            }
+
+            // Start
+
+            window.onload = function() {
+
+                const main = new Main();
+
+            };
+
+        </script>
+
+    </body>
+</html>

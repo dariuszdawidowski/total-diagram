@@ -1,10 +1,10 @@
 /***************************************************************************************************
- *                                                                                                 *
- *                            Gremlin Light (ultra lightweight version)                            *
- *                            Graph travesal query language system                                 *
- *                            Syntax inspired by Apache TinkerPop™ Gremlin Query Language          *
- *                            MIT License                                                          *
- *                            Copyright (c) 2023 Dariusz Dawidowski                                *
+ *        .         .                                                                              *
+ *       / \__***__/ \        Gremlin Light (ultra lightweight version)                            *
+ *      ( I /     \ I )       Graph travesal query language system                                 *
+ *       \_|  O.O  |_/        Syntax inspired by Apache TinkerPop™ Gremlin Query Language          *
+ *          \ ___ /           MIT License                                                          *
+ *          \_V___/           Copyright (c) 2023 Dariusz Dawidowski                                *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -91,7 +91,16 @@ class GraphTraversal {
 
 	}
 
+    hasNext() {
+        return (this.result != null && this.result.constructor.name != 'Array');
+    }
+
+    next() {
+        return this.result;
+    }
+
 	toList() {
+        if (this.result.constructor.name != 'Array') return [this.result];
         return this.result;
 	}
 

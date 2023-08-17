@@ -60,6 +60,11 @@ class TotalDiagramRenderHTML5 {
         // Link
         this.links = args.links;
         this.links.render = this;
+
+        // Gremlin
+        const traversal = AnonymousTraversalSource.traversal;
+        this.g = traversal().withLists(this.nodes.list, this.links.list);
+
     }
 
     /**
