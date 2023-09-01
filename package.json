@@ -6,7 +6,8 @@
 	"scripts": {
 		"build:bundle": "node build.js",
 		"build": "npm-run-all build:bundle",
-		"start": "npm-run-all build"
+		"start": "npm-run-all build",
+		"test": "cypress open"
 	},
 	"devDependencies": {
 		"cypress": "^13.0.0",
