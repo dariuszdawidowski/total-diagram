@@ -67,8 +67,14 @@
     <body>
         <!-- Main diagram container -->
         <div id="container">
-            <h3>1: Basic demo</h3>
-            <p>How to create two nodes and link them.</p>
+            <h3>E2E test</h3>
+            <p>Testing sandbox for Cypress</p>
+            <p>
+                <button id="addNodeButton">add node</button>
+                <button id="delNodeButton">delete node</button>
+                <button id="addLinkButton">add link</button>
+                <button id="delLinkButton">delete link</button>
+            </p>
         </div>
 
         <!-- Total Diagram library -->
@@ -134,26 +140,48 @@
                     links: new TotalDiagramLinksManager()
                 });
 
-                // Create first node
-                const node1 = new NodeSquare({
-                    x: -150,
-                    y: -150
-                });
-                render.nodes.add(node1);
+                // // Create first node
+                // const node1 = new NodeSquare({
+                //     x: -150,
+                //     y: -150
+                // });
+                // render.nodes.add(node1);
+                //
+                // // Create second node
+                // const node2 = new NodeSquare({
+                //     x: 150,
+                //     y: 150
+                // });
+                // render.nodes.add(node2);
+                //
+                // // Create link between them
+                // const link1 = new LinkLine({
+                //     start: node1,
+                //     end: node2
+                // });
+                // render.links.add(link1);
 
-                // Create second node
-                const node2 = new NodeSquare({
-                    x: 150,
-                    y: 150
-                });
-                render.nodes.add(node2);
+                const addNodeButton = document.querySelector("#addNodeButton");
+                const delNodeButton = document.querySelector("#delNodeButton");
+                const addLinkButton = document.querySelector("#addLinkButton");
+                const delLinkButton = document.querySelector("#delLinkButton");
 
-                // Create link between them
-                const link1 = new LinkLine({
-                    start: node1,
-                    end: node2
+                addNodeButton.addEventListener('click', () => {
+
+                    console.log("add new node");
                 });
-                render.links.add(link1);
+
+                delNodeButton.addEventListener('click', () => {
+                    console.log("del old node");
+                });
+
+                addLinkButton.addEventListener('click', () => {
+                    console.log("add new lnk");
+                });
+
+                delLinkButton.addEventListener('click', () => {
+                    console.log("del old lnk");
+                });
 
                 // Move to view central 0,0
                 render.center();
