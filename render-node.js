@@ -154,8 +154,16 @@ class TotalDiagramNode {
         if ('minHeight' in size) this.transform.hmin = size.minHeight;
         if ('maxWidth' in size) this.transform.wmax = size.maxWidth;
         if ('maxHeight' in size) this.transform.hmax = size.maxHeight;
-        if ('border' in size) this.transform.border = size.border;
-        else this.transform.border = parseInt(getComputedStyle(this.element, null).getPropertyValue('border-left-width').replace('px', '')) || 0;
+        if (this.transform.w < this.transform.wmin) this.transform.w = this.transform.wmin;
+        if (this.transform.w > this.transform.wmax) this.transform.w = this.transform.wmax;
+        if (this.transform.h < this.transform.hmin) this.transform.h = this.transform.hmin;
+        if (this.transform.h > this.transform.hmax) this.transform.h = this.transform.hmax;
+        if ('border' in size) {
+            this.transform.border = size.border;
+        }
+        else {
+            this.transform.border = parseInt(getComputedStyle(this.element, null).getPropertyValue('border-left-width').replace('px', '')) || 0;
+        }
         this.setOrigin();
         this.element.style.width = this.transform.w + 'px';
         this.element.style.height = this.transform.h + 'px';
