@@ -183,6 +183,37 @@ class TotalDiagramRenderHTML5 {
     }
 
     /**
+     * Focus on content
+     */
+
+    focusBounds(parent) {
+        const bbox = this.getContentBounds(this.nodes.parent);
+        this.offset.z = 0.3;
+        this.offset.x = (-bbox.ox * this.offset.z) + this.size.center.x;
+        this.offset.y = (-bbox.oy * this.offset.z) + this.size.center.y;
+        this.update();
+    }
+
+    /**
+     * Calculate bound box of all nodes in current parent hierarchy
+     */
+
+    getContentBounds(parent) {
+        const bbox = {top: 0, right: 0, bottom: 0, left: 0, ox: 0, oy: 0};
+        this.nodes.get('*').forEach(node => {
+            if (node.parent == parent) {
+                if (node.transform.x < bbox.left) bbox.left = node.transform.x;
+                else if (node.transform.x > bbox.right) bbox.right = node.transform.x;
+                if (node.transform.y < bbox.top) bbox.top = node.transform.y;
+                else if (node.transform.y > bbox.bottom) bbox.bottom = node.transform.y;
+            }
+        });
+        bbox.ox = (bbox.left + bbox.right) / 2;
+        bbox.oy = (bbox.top + bbox.bottom) / 2;
+        return bbox;
+    }
+
+    /**
      * Delete all nodes and links and clear DOM
      */
 
