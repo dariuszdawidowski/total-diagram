@@ -188,7 +188,14 @@ class TotalDiagramRenderHTML5 {
 
     focusBounds(parent) {
         const bbox = this.getContentBounds(this.nodes.parent);
-        this.offset.z = bbox.isZero() ? 1 : 0.3;
+        const scale = {
+            x: this.size.width / bbox.width,
+            y: this.size.height / bbox.height,
+            avg: function() {
+                return (this.x + this.y) / 2;
+            }
+        };
+        this.offset.z = bbox.isZero() ? 1 : Math.min(Math.max(scale.avg(), 0.3), 1.0);
         this.offset.x = (-bbox.ox * this.offset.z) + this.size.center.x;
         this.offset.y = (-bbox.oy * this.offset.z) + this.size.center.y;
         this.update();
@@ -206,6 +213,8 @@ class TotalDiagramRenderHTML5 {
             left: 0,
             ox: 0,
             oy: 0,
+            width: 0,
+            height: 0,
             isZero: function() {
                 for (let key in this) {
                     if (key !== 'isZero' && Math.abs(this[key]) > Number.EPSILON) return false;
@@ -223,6 +232,8 @@ class TotalDiagramRenderHTML5 {
         });
         bbox.ox = (bbox.left + bbox.right) / 2;
         bbox.oy = (bbox.top + bbox.bottom) / 2;
+        bbox.width = bbox.right - bbox.left;
+        bbox.height = bbox.bottom - bbox.top;
         return bbox;
     }
 
