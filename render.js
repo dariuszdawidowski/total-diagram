@@ -30,11 +30,11 @@ class TotalDiagramRenderHTML5 {
         this.board.style.overflow = 'visible';
         this.container.appendChild(this.board);
 
-        // Board dimensions
+        // Render area window dimensions
         this.size = this.container.getBoundingClientRect();
         this.size.center = {x: this.size.width / 2, y: this.size.height / 2};
 
-        // Board margins
+        // Render area window margins
         this.margin = {
             left: this.size.left - document.documentElement.scrollLeft,
             top: this.size.top - document.documentElement.scrollTop,
@@ -188,7 +188,7 @@ class TotalDiagramRenderHTML5 {
 
     focusBounds(parent) {
         const bbox = this.getContentBounds(this.nodes.parent);
-        this.offset.z = 0.3;
+        this.offset.z = bbox.isZero() ? 1 : 0.3;
         this.offset.x = (-bbox.ox * this.offset.z) + this.size.center.x;
         this.offset.y = (-bbox.oy * this.offset.z) + this.size.center.y;
         this.update();
@@ -199,7 +199,20 @@ class TotalDiagramRenderHTML5 {
      */
 
     getContentBounds(parent) {
-        const bbox = {top: 0, right: 0, bottom: 0, left: 0, ox: 0, oy: 0};
+        const bbox = {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            ox: 0,
+            oy: 0,
+            isZero: function() {
+                for (let key in this) {
+                    if (key !== 'isZero' && Math.abs(this[key]) > Number.EPSILON) return false;
+                }
+                return true;
+            }
+        };
         this.nodes.get('*').forEach(node => {
             if (node.parent == parent) {
                 if (node.transform.x < bbox.left) bbox.left = node.transform.x;
