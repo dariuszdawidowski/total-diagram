@@ -196,8 +196,8 @@ class TotalDiagramRenderHTML5 {
             }
         };
         this.offset.z = bbox.isZero() ? 1 : Math.min(Math.max(scale.avg(), 0.3), 1.0);
-        this.offset.x = (-bbox.ox * this.offset.z) + this.size.center.x;
-        this.offset.y = (-bbox.oy * this.offset.z) + this.size.center.y;
+        this.offset.x = (-bbox.x * this.offset.z) + this.size.center.x;
+        this.offset.y = (-bbox.y * this.offset.z) + this.size.center.y;
         this.update();
     }
 
@@ -209,14 +209,14 @@ class TotalDiagramRenderHTML5 {
 
     getBounds(nodes, parent = this.nodes.parent) {
         const bbox = {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            ox: 0,
-            oy: 0,
-            width: 0,
-            height: 0,
+            left: 0,   // -x world coords
+            right: 0,  // +x world coords
+            top: 0,    // -y world coords
+            bottom: 0, // +y world coords
+            x: 0,      // center x (world coords)
+            y: 0,      // center y (world coords)
+            width: 0,  // size x
+            height: 0, // size y
             isZero: function() {
                 for (let key in this) {
                     if (key !== 'isZero' && Math.abs(this[key]) > Number.EPSILON) return false;
@@ -232,10 +232,10 @@ class TotalDiagramRenderHTML5 {
                 else if (node.transform.y > bbox.bottom) bbox.bottom = node.transform.y;
             }
         });
-        bbox.ox = (bbox.left + bbox.right) / 2;
-        bbox.oy = (bbox.top + bbox.bottom) / 2;
         bbox.width = bbox.right - bbox.left;
         bbox.height = bbox.bottom - bbox.top;
+        bbox.x = bbox.left + (bbox.width / 2);
+        bbox.y = bbox.top + (bbox.height / 2);
         return bbox;
     }
 
