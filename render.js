@@ -32,7 +32,6 @@ class TotalDiagramRenderHTML5 {
 
         // Render area window dimensions
         this.size = this.container.getBoundingClientRect();
-        console.log('this.size', this.size);
         this.size.center = {x: this.size.width / 2, y: this.size.height / 2};
 
         // Render area window margins
