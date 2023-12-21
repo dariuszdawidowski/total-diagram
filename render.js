@@ -186,8 +186,8 @@ class TotalDiagramRenderHTML5 {
      * Focus on content
      */
 
-    focusBounds(parent) {
-        const bbox = this.getContentBounds(this.nodes.parent);
+    focusBounds() {
+        const bbox = this.getBounds(this.nodes.get('*'), this.nodes.parent);
         const scale = {
             x: this.size.width / bbox.width,
             y: this.size.height / bbox.height,
@@ -202,10 +202,12 @@ class TotalDiagramRenderHTML5 {
     }
 
     /**
-     * Calculate bound box of all nodes in current parent hierarchy
+     * Calculate bound box
+     * nodes: all given nodes
+     * parent: their parent hierarchy
      */
 
-    getContentBounds(parent) {
+    getBounds(nodes, parent = this.nodes.parent) {
         const bbox = {
             top: 0,
             right: 0,
@@ -222,7 +224,7 @@ class TotalDiagramRenderHTML5 {
                 return true;
             }
         };
-        this.nodes.get('*').forEach(node => {
+        nodes.forEach(node => {
             if (node.parent == parent) {
                 if (node.transform.x < bbox.left) bbox.left = node.transform.x;
                 else if (node.transform.x > bbox.right) bbox.right = node.transform.x;
