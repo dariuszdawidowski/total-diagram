@@ -32,6 +32,7 @@ class TotalDiagramRenderHTML5 {
 
         // Render area window dimensions
         this.size = this.container.getBoundingClientRect();
+        console.log('this.size', this.size);
         this.size.center = {x: this.size.width / 2, y: this.size.height / 2};
 
         // Render area window margins
@@ -187,7 +188,7 @@ class TotalDiagramRenderHTML5 {
      */
 
     focusBounds() {
-        const bbox = this.getBounds(this.nodes.get('*'), this.nodes.parent);
+        const bbox = this.getBounds(this.nodes.get('*').filter(node => node.parent == this.nodes.parent));
         const scale = {
             x: this.size.width / bbox.width,
             y: this.size.height / bbox.height,
@@ -204,15 +205,14 @@ class TotalDiagramRenderHTML5 {
     /**
      * Calculate bound box
      * nodes: all given nodes
-     * parent: their parent hierarchy
      */
 
-    getBounds(nodes, parent = this.nodes.parent) {
+    getBounds(nodes) {
         const bbox = {
-            left: 0,   // -x world coords
-            right: 0,  // +x world coords
-            top: 0,    // -y world coords
-            bottom: 0, // +y world coords
+            left: Infinity,   // -x world coords
+            right: -Infinity,  // +x world coords
+            top: Infinity,    // -y world coords
+            bottom: -Infinity, // +y world coords
             x: 0,      // center x (world coords)
             y: 0,      // center y (world coords)
             width: 0,  // size x
@@ -225,12 +225,10 @@ class TotalDiagramRenderHTML5 {
             }
         };
         nodes.forEach(node => {
-            if (node.parent == parent) {
-                if (node.transform.x < bbox.left) bbox.left = node.transform.x;
-                else if (node.transform.x > bbox.right) bbox.right = node.transform.x;
-                if (node.transform.y < bbox.top) bbox.top = node.transform.y;
-                else if (node.transform.y > bbox.bottom) bbox.bottom = node.transform.y;
-            }
+            bbox.left = Math.min(node.transform.x - (node.transform.w / 2), bbox.left);
+            bbox.top = Math.min(node.transform.y - (node.transform.h / 2), bbox.top);
+            bbox.right = Math.max(node.transform.x + (node.transform.w / 2), bbox.right);
+            bbox.bottom = Math.max(node.transform.y + (node.transform.h / 2), bbox.bottom);
         });
         bbox.width = bbox.right - bbox.left;
         bbox.height = bbox.bottom - bbox.top;
