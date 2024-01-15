@@ -176,7 +176,8 @@ class TotalDiagramNode {
             minWidth: this.transform.wmin,
             minHeight: this.transform.hmin,
             maxWidth: this.transform.wmax,
-            maxHeight: this.transform.hmax
+            maxHeight: this.transform.hmax,
+            border: this.transform.border
         };
     }
 
@@ -292,7 +293,7 @@ class TotalDiagramNode {
 
     update() {
         // Calculate position (PYQt6 doesn't support separate css translate yet)
-        this.element.style.transform = `translate(${this.transform.x - this.transform.ox}px, ${this.transform.y - this.transform.oy}px)`;
+        this.element.style.transform = `translate(${this.transform.x - this.transform.ox - this.transform.border}px, ${this.transform.y - this.transform.oy - this.transform.border}px)`;
     }
 
 }
