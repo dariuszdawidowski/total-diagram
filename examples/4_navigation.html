@@ -269,23 +269,23 @@
 
                 container.addEventListener('mousedown', (event) => {
                     state = 1;
-                } );
+                });
 
                 container.addEventListener('mousemove', (event) => {
-                  
                     if (state == 1) {
                         render.pan(event.movementX, event.movementY);
                     }
                 });
 
                 container.addEventListener('mouseup', (event) => {
+                    render.damp();
                     state = 0;
-                } );
+                });
 
                 container.addEventListener('mousewheel', (event) => {
                     event.preventDefault();
                     render.zoom(event.pageX, event.pageY, event.deltaY, 1000);
-                } );
+                });
                 
             }
 

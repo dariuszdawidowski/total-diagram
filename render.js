@@ -40,11 +40,15 @@ class TotalDiagramRenderHTML5 {
             top: this.size.top - document.documentElement.scrollTop,
         };
 
-        // Board current pan offset (x,y) and zoom (z)
+        // Board current pan offset (x,y), zoom (z) and last delta movement (delta.x delta.y)
         this.offset = {
             x: 0,
             y: 0,
-            z: 1
+            z: 1,
+            delta: {
+                x: 0,
+                y: 0
+            }
         };
         
         // Window resize callback
@@ -74,9 +78,32 @@ class TotalDiagramRenderHTML5 {
      */
 
     pan(deltaX, deltaY) {
+        this.offset.delta.x = deltaX;
+        this.offset.delta.y = deltaY;
         this.offset.x += deltaX;
         this.offset.y += deltaY;
         this.update();
+    }
+
+    /**
+     * Perform pan damping
+     */
+
+    damp(factor = 0.9) {
+
+        const dampAnimation = () => {
+            this.offset.delta.x *= factor;
+            this.offset.delta.y *= factor;
+            this.offset.x += this.offset.delta.x;
+            this.offset.y += this.offset.delta.y;
+            this.update();
+
+            if (Math.abs(this.offset.delta.x) > 0.1 || Math.abs(this.offset.delta.y) > 0.1) {
+                requestAnimationFrame(dampAnimation);
+            }
+        };
+
+        dampAnimation();
     }
 
     /**
