@@ -144,29 +144,39 @@ class TotalDiagramNode {
 
     /**
      * Size 
-     * {width: <Number>, height: <Number>, minWidth: <Number>, minHeight: <Number>, maxWidth: <Number>, maxHeight: <Number>, border: [Number]}
+     * @param size.width: <Number>
+     * @param size.height: <Number>
+     * @param size.minWidth: <Number>
+     * @param size.minHeight: <Number>
+     * @param size.maxWidth: <Number>
+     * @param size.maxHeight: <Number>
+     * @param size.border: [Number]
      */
 
     setSize(size) {
-        this.transform.w = size.width;
-        this.transform.h = size.height;
+        if ('width' in size) this.transform.w = size.width;
+        if ('height' in size) this.transform.h = size.height;
         if ('minWidth' in size) this.transform.wmin = size.minWidth;
         if ('minHeight' in size) this.transform.hmin = size.minHeight;
         if ('maxWidth' in size) this.transform.wmax = size.maxWidth;
         if ('maxHeight' in size) this.transform.hmax = size.maxHeight;
-        if (this.transform.w < this.transform.wmin) this.transform.w = this.transform.wmin;
-        if (this.transform.w > this.transform.wmax) this.transform.w = this.transform.wmax;
-        if (this.transform.h < this.transform.hmin) this.transform.h = this.transform.hmin;
-        if (this.transform.h > this.transform.hmax) this.transform.h = this.transform.hmax;
+        if ('width' in size) {
+            if (this.transform.w < this.transform.wmin) this.transform.w = this.transform.wmin;
+            if (this.transform.w > this.transform.wmax) this.transform.w = this.transform.wmax;
+        }
+        if ('height' in size) {
+            if (this.transform.h < this.transform.hmin) this.transform.h = this.transform.hmin;
+            if (this.transform.h > this.transform.hmax) this.transform.h = this.transform.hmax;
+        }
         if ('border' in size) {
             this.transform.border = size.border;
         }
         else {
             this.transform.border = parseInt(getComputedStyle(this.element, null).getPropertyValue('border-left-width').replace('px', '')) || 0;
         }
-        this.setOrigin();
-        this.element.style.width = this.transform.w + 'px';
-        this.element.style.height = this.transform.h + 'px';
+        if ('width' in size && 'height' in size) this.setOrigin();
+        if ('width' in size) this.element.style.width = this.transform.w + 'px';
+        if ('height' in size) this.element.style.height = this.transform.h + 'px';
     }
 
     getSize() {
