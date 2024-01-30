@@ -89,13 +89,13 @@ class TotalDiagramRenderHTML5 {
      * Perform pan damping
      */
 
-    damp(factor = 0.9) {
+    damp(factor = 0.97) {
 
         const dampAnimation = () => {
             this.offset.delta.x *= factor;
             this.offset.delta.y *= factor;
-            this.offset.x += this.offset.delta.x;
-            this.offset.y += this.offset.delta.y;
+            this.offset.x += this.offset.delta.x / window.devicePixelRatio;
+            this.offset.y += this.offset.delta.y / window.devicePixelRatio;
             this.update();
 
             if (Math.abs(this.offset.delta.x) > 0.1 || Math.abs(this.offset.delta.y) > 0.1) {
