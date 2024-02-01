@@ -47,7 +47,23 @@ class TotalDiagramRenderHTML5 {
             z: 1,
             delta: {
                 x: 0,
-                y: 0
+                y: 0,
+                length: function() {
+                     return Math.sqrt(this.x ** 2 + this.y ** 2);
+                }
+            },
+            timestamp: 0,
+            speed: 0, // avg px/s
+            add: function(deltaX, deltaY) {
+                this.delta.x = deltaX;
+                this.delta.y = deltaY;
+                this.x += deltaX;
+                this.y += deltaY;
+                const currentTime = Date.now();
+                if (this.timestamp == 0) this.timestamp = currentTime;
+                const deltaTime = currentTime - this.timestamp;
+                this.timestamp = currentTime;
+                this.speed = (this.speed + Math.min(5000, this.delta.length() / (deltaTime / 1000))) / 2;
             }
         };
         
@@ -78,10 +94,7 @@ class TotalDiagramRenderHTML5 {
      */
 
     pan(deltaX, deltaY) {
-        this.offset.delta.x = deltaX;
-        this.offset.delta.y = deltaY;
-        this.offset.x += deltaX;
-        this.offset.y += deltaY;
+        this.offset.add(deltaX, deltaY);
         this.update();
     }
 
@@ -89,7 +102,7 @@ class TotalDiagramRenderHTML5 {
      * Perform pan damping
      */
 
-    damp(factor = 0.97) {
+    damp(factor = 0.97, minSpeed = 250) {
 
         const dampAnimation = () => {
             this.offset.delta.x *= factor;
@@ -103,7 +116,7 @@ class TotalDiagramRenderHTML5 {
             }
         };
 
-        dampAnimation();
+        if (this.offset.speed > minSpeed) dampAnimation();
     }
 
     /**
@@ -115,6 +128,10 @@ class TotalDiagramRenderHTML5 {
      */
 
     zoom(x, y, deltaZ, factorZ) {
+
+        this.offset.delta.x = 0;
+        this.offset.delta.y = 0;
+
         let deltaZoom = this.offset.z;
         this.offset.z = Math.max(0.1, Math.min(3.0, this.offset.z - (deltaZ / factorZ) * this.offset.z));
         deltaZoom = this.offset.z / deltaZoom;
