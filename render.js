@@ -59,6 +59,9 @@ class TotalDiagramRenderHTML5 {
                 this.delta.y = deltaY;
                 this.x += deltaX;
                 this.y += deltaY;
+                this.calcSpeed();
+            },
+            calcSpeed: function() {
                 const currentTime = Date.now();
                 if (this.timestamp == 0) this.timestamp = currentTime;
                 const deltaTime = currentTime - this.timestamp;
@@ -102,7 +105,9 @@ class TotalDiagramRenderHTML5 {
      * Perform pan damping
      */
 
-    damp(factor = 0.97, minSpeed = 250) {
+    damp(factor = 0.97, minSpeed = 300) {
+
+        this.offset.calcSpeed();
 
         const dampAnimation = () => {
             this.offset.delta.x *= factor;
