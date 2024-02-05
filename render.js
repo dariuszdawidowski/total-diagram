@@ -61,12 +61,12 @@ class TotalDiagramRenderHTML5 {
                 this.y += deltaY;
                 this.calcSpeed();
             },
-            calcSpeed: function() {
+            calcSpeed: function(maxSpeed = 4000) {
                 const currentTime = Date.now();
                 if (this.timestamp == 0) this.timestamp = currentTime;
                 const deltaTime = currentTime - this.timestamp;
                 this.timestamp = currentTime;
-                this.speed = (this.speed + Math.min(5000, this.delta.length() / (deltaTime / 1000))) / 2;
+                this.speed = (this.speed + Math.min(maxSpeed, this.delta.length() / (deltaTime / 1000))) / 2;
             }
         };
         
