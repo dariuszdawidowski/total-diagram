@@ -272,12 +272,21 @@ class TotalDiagramRenderHTML5 {
                 return true;
             }
         };
-        nodes.forEach(node => {
-            bbox.left = Math.min(node.transform.x - (node.transform.w / 2), bbox.left);
-            bbox.top = Math.min(node.transform.y - (node.transform.h / 2), bbox.top);
-            bbox.right = Math.max(node.transform.x + (node.transform.w / 2), bbox.right);
-            bbox.bottom = Math.max(node.transform.y + (node.transform.h / 2), bbox.bottom);
-        });
+        if (nodes.length) {
+            nodes.forEach(node => {
+                bbox.left = Math.min(node.transform.x - (node.transform.w / 2), bbox.left);
+                bbox.top = Math.min(node.transform.y - (node.transform.h / 2), bbox.top);
+                bbox.right = Math.max(node.transform.x + (node.transform.w / 2), bbox.right);
+                bbox.bottom = Math.max(node.transform.y + (node.transform.h / 2), bbox.bottom);
+            });
+        }
+        // No nodes
+        else {
+            bbox.left = 0;
+            bbox.right = 0;
+            bbox.top = 0;
+            bbox.bottom = 0;
+        }
         bbox.width = bbox.right - bbox.left;
         bbox.height = bbox.bottom - bbox.top;
         bbox.x = bbox.left + (bbox.width / 2);
