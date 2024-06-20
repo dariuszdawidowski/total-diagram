@@ -3,7 +3,7 @@
  *         /\_/\              Total Diagram Node                                                   *
  *        (=^o^=)/\           Base class for diagram node                                          *
  *         (___)__/           MIT License                                                          *
- *     ~~~~~~~~~~~~~~~        Copyright (c) 2020-2023 Dariusz Dawidowski                           *
+ *     ~~~~~~~~~~~~~~~        Copyright (c) 2020-2024 Dariusz Dawidowski                           *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -11,6 +11,11 @@ class TotalDiagramNode {
 
     /**
      * Constructor
+     * @param id: string - unique identifier
+     * @param name: string - name for the node type
+     * @param x: float - x position in world coordinates
+     * @param y: float - y position in world coordinates
+     * @param zindex: int - sorting index
      */
 
     constructor(args = {}) {
@@ -203,7 +208,7 @@ class TotalDiagramNode {
 
     /**
      * Set position
-     * transform {x: float, y: float}
+     * @param transform {x: float, y: float}
      */
 
     setPosition(transform) {
@@ -213,7 +218,7 @@ class TotalDiagramNode {
 
     /**
      * Get position
-     * transform {x: float, y: float}
+     * @param transform {x: float, y: float}
      */
 
     getPosition() {
@@ -222,7 +227,7 @@ class TotalDiagramNode {
 
     /**
      * Change position
-     * transform {x: float, y: float}
+     * @param transform {x: float, y: float}
      */
 
     addPosition(transform) {
@@ -232,7 +237,7 @@ class TotalDiagramNode {
 
     /**
      * Change position
-     * transform {x: float, y: float}
+     * @param transform {x: float, y: float}
      */
 
     subPosition(transform) {
@@ -241,12 +246,19 @@ class TotalDiagramNode {
     }
 
     /**
-     * Style
+     * Set CSS style
+     * @param key: string - name of the property
+     * @param value: any
      */
 
     setStyle(key, value = null) {
         if (value !== null) this.element.style[key] = value;
     }
+
+    /**
+     * Get CSS style
+     * @param key: string - name of the property or none for list of all
+     */
 
     getStyle(key = null) {
         if (key !== null) return this.element.style[key];
@@ -255,6 +267,7 @@ class TotalDiagramNode {
 
     /**
      * Make node transparent
+     * @param percent: float - opacity
      */
 
     transparent(percent) {
@@ -266,6 +279,7 @@ class TotalDiagramNode {
 
     /**
      * Enable/disable smooth css animation
+     * @param state: bool - true for animated, false for none
      */
 
     animated(state = true) {
@@ -290,6 +304,7 @@ class TotalDiagramNode {
 
     /**
      * Set z-index
+     * @param zindex: int - ser sorting index
      */
 
     setSortingZ(zindex) {
