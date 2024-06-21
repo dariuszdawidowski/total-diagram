@@ -36,8 +36,8 @@ class TotalDiagramRenderHTML5 {
 
         // Render area window margins
         this.margin = {
-            left: this.size.left - document.documentElement.scrollLeft,
-            top: this.size.top - document.documentElement.scrollTop,
+            left: this.size.left + document.documentElement.scrollLeft,
+            top: this.size.top + document.documentElement.scrollTop,
         };
 
         // Board current pan offset (x,y), zoom (z) and last delta movement (delta.x delta.y)
