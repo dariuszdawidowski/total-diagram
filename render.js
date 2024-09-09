@@ -3,7 +3,7 @@
  *            ,;   )          Total Diagram Render HTML5                                           *
  *       _o_ _;   (           One manager to rule them all                                         *
  *    (c(   )/   ____         MIT License                                                          *
- *      |___|    \__/)        Copyright (c) 2020-2023 Dariusz Dawidowski                           *
+ *      |___|    \__/)        Copyright (c) 2020-2024 Dariusz Dawidowski                           *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -34,14 +34,8 @@ class TotalDiagramRenderHTML5 {
         this.size = this.container.getBoundingClientRect();
         this.size.center = {x: this.size.width / 2, y: this.size.height / 2};
 
-        // Render area window margins
-        this.margin = {
-            left: this.size.left + document.documentElement.scrollLeft,
-            top: this.size.top + document.documentElement.scrollTop,
-        };
-
         // Board current pan offset (x,y), zoom (z) and last delta movement (delta.x delta.y)
-        this.offset = {
+        this.transform = {
             x: 0,
             y: 0,
             z: 1,
@@ -97,7 +91,7 @@ class TotalDiagramRenderHTML5 {
      */
 
     pan(deltaX, deltaY) {
-        this.offset.add(deltaX, deltaY);
+        this.transform.add(deltaX, deltaY);
         this.update();
     }
 
@@ -107,21 +101,21 @@ class TotalDiagramRenderHTML5 {
 
     damp(factor = 0.97, minSpeed = 300) {
 
-        this.offset.calcSpeed();
+        this.transform.calcSpeed();
 
         const dampAnimation = () => {
-            this.offset.delta.x *= factor;
-            this.offset.delta.y *= factor;
-            this.offset.x += this.offset.delta.x / window.devicePixelRatio;
-            this.offset.y += this.offset.delta.y / window.devicePixelRatio;
+            this.transform.delta.x *= factor;
+            this.transform.delta.y *= factor;
+            this.transform.x += this.transform.delta.x / window.devicePixelRatio;
+            this.transform.y += this.transform.delta.y / window.devicePixelRatio;
             this.update();
 
-            if (Math.abs(this.offset.delta.x) > 0.1 || Math.abs(this.offset.delta.y) > 0.1) {
+            if (Math.abs(this.transform.delta.x) > 0.1 || Math.abs(this.transform.delta.y) > 0.1) {
                 requestAnimationFrame(dampAnimation);
             }
         };
 
-        if (this.offset.speed > minSpeed) dampAnimation();
+        if (this.transform.speed > minSpeed) dampAnimation();
     }
 
     /**
@@ -134,19 +128,19 @@ class TotalDiagramRenderHTML5 {
 
     zoom(x, y, deltaZ, factorZ) {
 
-        this.offset.delta.x = 0;
-        this.offset.delta.y = 0;
+        this.transform.delta.x = 0;
+        this.transform.delta.y = 0;
 
-        let deltaZoom = this.offset.z;
-        this.offset.z = Math.max(0.1, Math.min(3.0, this.offset.z - (deltaZ / factorZ) * this.offset.z));
-        deltaZoom = this.offset.z / deltaZoom;
+        let deltaZoom = this.transform.z;
+        this.transform.z = Math.max(0.1, Math.min(3.0, this.transform.z - (deltaZ / factorZ) * this.transform.z));
+        deltaZoom = this.transform.z / deltaZoom;
 
         const boundingRect = this.board.getBoundingClientRect();
         const ox = boundingRect.width / 2 + boundingRect.left - x;
         const oy = boundingRect.height / 2 + boundingRect.top - y;
 
-        this.offset.x += ox * deltaZoom - ox;
-        this.offset.y += oy * deltaZoom - oy;
+        this.transform.x += ox * deltaZoom - ox;
+        this.transform.y += oy * deltaZoom - oy;
         this.update();
     }
 
@@ -160,16 +154,16 @@ class TotalDiagramRenderHTML5 {
      */
 
     pinchZoom(x1, y1, x2, y2, deltaZ) {
-        let deltaZoom = this.offset.z;
-        this.offset.z = Math.max(0.1,Math.min(3.0, this.offset.z * deltaZ));
-        deltaZoom = this.offset.z / deltaZoom;
+        let deltaZoom = this.transform.z;
+        this.transform.z = Math.max(0.1,Math.min(3.0, this.transform.z * deltaZ));
+        deltaZoom = this.transform.z / deltaZoom;
 
         const boundingRect = this.board.getBoundingClientRect();
         const ox = boundingRect.width / 2 + boundingRect.left - ((x1 + x2) / 2);
         const oy = boundingRect.height / 2 + boundingRect.top - ((y1 + y2) / 2);
 
-        this.offset.x += ox * deltaZoom - ox;
-        this.offset.y += oy * deltaZoom - oy;
+        this.transform.x += ox * deltaZoom - ox;
+        this.transform.y += oy * deltaZoom - oy;
         this.update();
     }
 
@@ -179,9 +173,13 @@ class TotalDiagramRenderHTML5 {
      */
 
     screen2World(coords) {
+        // return {
+        //     x: Math.round( (((coords.x - this.transform.x) / this.transform.z) - this.margin.left) ),
+        //     y: Math.round( (((coords.y - this.transform.y) / this.transform.z) - this.margin.top) ),
+        // };
         return {
-            x: Math.round( (((coords.x - this.offset.x) / this.offset.z) - this.margin.left) ),
-            y: Math.round( (((coords.y - this.offset.y) / this.offset.z) - this.margin.top) ),
+            x: Math.round( (coords.x - this.transform.x) / this.transform.z ),
+            y: Math.round( (coords.y - this.transform.y) / this.transform.z ),
         };
     }
 
@@ -191,9 +189,13 @@ class TotalDiagramRenderHTML5 {
      */
 
     world2Screen(coords) {
+        // return {
+        //     x: Math.round( ((this.transform.x + (coords.x * this.transform.z)) - this.margin.left) ),
+        //     y: Math.round( ((this.transform.y + (coords.y * this.transform.z)) - this.margin.top) ),
+        // };
         return {
-            x: Math.round( ((this.offset.x + (coords.x * this.offset.z)) - this.margin.left) ),
-            y: Math.round( ((this.offset.y + (coords.y * this.offset.z)) - this.margin.top) ),
+            x: Math.round( this.transform.x + (coords.x * this.transform.z) ),
+            y: Math.round( this.transform.y + (coords.y * this.transform.z) ),
         };
     }
 
@@ -213,12 +215,12 @@ class TotalDiagramRenderHTML5 {
         }
 
         // Zoom
-        if (z == 'reset') this.offset.z = 1;
-        else if (z == 'focus') this.offset.z = ((this.size.height) / (rect.height + rect.margin));
+        if (z == 'reset') this.transform.z = 1;
+        else if (z == 'focus') this.transform.z = ((this.size.height) / (rect.height + rect.margin));
 
         // Render
-        this.offset.x = (-coords.x * this.offset.z) + this.size.center.x;
-        this.offset.y = (-coords.y * this.offset.z) + this.size.center.y;
+        this.transform.x = (-coords.x * this.transform.z) + this.size.center.x;
+        this.transform.y = (-coords.y * this.transform.z) + this.size.center.y;
         this.update();
     }
 
@@ -227,7 +229,7 @@ class TotalDiagramRenderHTML5 {
      */
 
     centerZoom() {
-        this.offset.z = 1;
+        this.transform.z = 1;
         this.update();
     }
 
@@ -244,9 +246,9 @@ class TotalDiagramRenderHTML5 {
                 return (this.x + this.y) / 2;
             }
         };
-        this.offset.z = bbox.isZero() ? 1 : Math.min(Math.max(scale.avg(), 0.3), 1.0);
-        this.offset.x = (-bbox.x * this.offset.z) + this.size.center.x;
-        this.offset.y = (-bbox.y * this.offset.z) + this.size.center.y;
+        this.transform.z = bbox.isZero() ? 1 : Math.min(Math.max(scale.avg(), 0.3), 1.0);
+        this.transform.x = (-bbox.x * this.transform.z) + this.size.center.x;
+        this.transform.y = (-bbox.y * this.transform.z) + this.size.center.y;
         this.update();
     }
 
@@ -311,7 +313,7 @@ class TotalDiagramRenderHTML5 {
 
     update() {
         // Calculate board's position
-        this.board.style.transform = `translate(${this.offset.x}px, ${this.offset.y}px) scale(${this.offset.z})`;
+        this.board.style.transform = `translate(${this.transform.x}px, ${this.transform.y}px) scale(${this.transform.z})`;
     }
 
     /**
