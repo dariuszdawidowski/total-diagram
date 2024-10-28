@@ -1,6 +1,6 @@
 {
 	"name": "total-diagram",
-	"version": "0.9.9",
+	"version": "0.9.10",
 	"description": "Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer for web browsers.",
 	"license": "MIT",
 	"scripts": {
