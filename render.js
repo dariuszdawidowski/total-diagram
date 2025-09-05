@@ -3,7 +3,7 @@
  *            ,;   )          Total Diagram Render HTML5                                           *
  *       _o_ _;   (           One manager to rule them all                                         *
  *    (c(   )/   ____         MIT License                                                          *
- *      |___|    \__/)        Copyright (c) 2020-2024 Dariusz Dawidowski                           *
+ *      |___|    \__/)        Copyright (c) 2020-2025 Dariusz Dawidowski                           *
  *                                                                                                 *
  **************************************************************************************************/
 
@@ -173,10 +173,6 @@ class TotalDiagramRenderHTML5 {
      */
 
     screen2World(coords) {
-        // return {
-        //     x: Math.round( (((coords.x - this.transform.x) / this.transform.z) - this.margin.left) ),
-        //     y: Math.round( (((coords.y - this.transform.y) / this.transform.z) - this.margin.top) ),
-        // };
         return {
             x: Math.round( (coords.x - this.transform.x) / this.transform.z ),
             y: Math.round( (coords.y - this.transform.y) / this.transform.z ),
@@ -189,10 +185,6 @@ class TotalDiagramRenderHTML5 {
      */
 
     world2Screen(coords) {
-        // return {
-        //     x: Math.round( ((this.transform.x + (coords.x * this.transform.z)) - this.margin.left) ),
-        //     y: Math.round( ((this.transform.y + (coords.y * this.transform.z)) - this.margin.top) ),
-        // };
         return {
             x: Math.round( this.transform.x + (coords.x * this.transform.z) ),
             y: Math.round( this.transform.y + (coords.y * this.transform.z) ),
@@ -259,27 +251,27 @@ class TotalDiagramRenderHTML5 {
 
     getBounds(nodes) {
         const bbox = {
-            left: Infinity,   // -x world coords
+            left: Infinity,    // -x world coords
             right: -Infinity,  // +x world coords
-            top: Infinity,    // -y world coords
+            top: Infinity,     // -y world coords
             bottom: -Infinity, // +y world coords
-            x: 0,      // center x (world coords)
-            y: 0,      // center y (world coords)
-            width: 0,  // size x
-            height: 0, // size y
+            x: 0,              // center x (world coords)
+            y: 0,              // center y (world coords)
+            width: 0,          // size x
+            height: 0,         // size y
             isZero: function() {
-                for (let key in this) {
-                    if (key !== 'isZero' && Math.abs(this[key]) > Number.EPSILON) return false;
-                }
-                return true;
+                return Math.abs(this.width) < Number.EPSILON || Math.abs(this.height) < Number.EPSILON;
             }
         };
-        if (nodes.length) {
+        
+        if (nodes && nodes.length) {
             nodes.forEach(node => {
-                bbox.left = Math.min(node.transform.x - (node.transform.w / 2), bbox.left);
-                bbox.top = Math.min(node.transform.y - (node.transform.h / 2), bbox.top);
-                bbox.right = Math.max(node.transform.x + (node.transform.w / 2), bbox.right);
-                bbox.bottom = Math.max(node.transform.y + (node.transform.h / 2), bbox.bottom);
+                if (node.transform) {
+                    bbox.left = Math.min(node.transform.x - (node.transform.w / 2), bbox.left);
+                    bbox.top = Math.min(node.transform.y - (node.transform.h / 2), bbox.top);
+                    bbox.right = Math.max(node.transform.x + (node.transform.w / 2), bbox.right);
+                    bbox.bottom = Math.max(node.transform.y + (node.transform.h / 2), bbox.bottom);
+                }
             });
         }
         // No nodes
