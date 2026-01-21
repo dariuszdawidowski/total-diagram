@@ -51,9 +51,11 @@ Install via npm:
 npm install total-diagram
 ```
 
-Import in your JavaScript (for webpack, vite, etc.):
+Import in your JavaScript:
 
 ```javascript
+// ES6 import (for webpack, vite, rollup, etc.)
+// Modern bundlers will automatically convert the CommonJS exports
 import {
     TotalDiagramRenderHTML5,
     TotalDiagramNode,
@@ -62,7 +64,7 @@ import {
     TotalDiagramLinksManager
 } from 'total-diagram';
 
-// Or using CommonJS
+// Or using CommonJS require
 const {
     TotalDiagramRenderHTML5,
     TotalDiagramNode,
