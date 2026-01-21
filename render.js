@@ -319,3 +319,8 @@ class TotalDiagramRenderHTML5 {
     }
 
 }
+
+// Export for Node.js/Jest testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = TotalDiagramRenderHTML5;
+}
