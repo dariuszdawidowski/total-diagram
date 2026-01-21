@@ -123,7 +123,7 @@ npm run build
 ├── render-node.js         # Node base class
 ├── render-link.js         # Link base class
 ├── gremlin.js            # Graph traversal
-├── format.js             # Formatting utilities
+├── format.js             # TotalJSON serialization/deserialization
 ├── build.js              # Build script
 ├── total-diagram.js.ejs  # Bundle template
 ├── examples/             # Tutorial examples
