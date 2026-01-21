@@ -7,7 +7,6 @@ describe('Responsive and Layout Tests', () => {
     it('should have container that fills viewport', () => {
         cy.get('#container').then(($container) => {
             const containerHeight = $container.height()
-            const windowHeight = Cypress.$(cy.state('window')).height()
             expect(containerHeight).to.be.greaterThan(0)
         })
     })
