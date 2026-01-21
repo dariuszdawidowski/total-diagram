@@ -57,7 +57,7 @@ class TotalDiagramLinksManager {
             link.destructor();
 
             // Remove from DOM
-            link.element.remove()
+            link.element.remove();
 
             // Remove from list
             const index = this.list.indexOf(link);
