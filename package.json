@@ -3,6 +3,19 @@
 	"version": "0.9.11",
 	"description": "Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer for web browsers.",
 	"license": "MIT",
+	"main": "index.js",
+	"browser": "dist/total-diagram.js",
+	"files": [
+		"index.js",
+		"format.js",
+		"gremlin.js",
+		"render-node.js",
+		"render-link.js",
+		"manager-nodes.js",
+		"manager-links.js",
+		"render.js",
+		"dist/total-diagram.js"
+	],
 	"scripts": {
 		"build:bundle": "node build.js",
 		"build": "npm-run-all build:bundle",
