@@ -57,7 +57,7 @@ class TotalDiagramLinksManager {
             link.destructor();
 
             // Remove from DOM
-            link.element.remove()
+            link.element.remove();
 
             // Remove from list
             const index = this.list.indexOf(link);
@@ -81,7 +81,7 @@ class TotalDiagramLinksManager {
             this.list.length = 0;
 
             // Broadcast delete event
-            const event = new CustomEvent('broadcast:delnodes', { detail: '*' });
+            const event = new CustomEvent('broadcast:dellinks', { detail: '*' });
             this.render.container.dispatchEvent(event);
 
         }

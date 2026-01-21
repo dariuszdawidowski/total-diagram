@@ -84,7 +84,7 @@ class GraphTraversal {
         }
 
         // Find by giving class type
-        else if (typeof(node) == 'function') this.result = list.filter(n => n instanceof node);
+        else if (typeof(query) == 'function') this.result = list.filter(n => n instanceof query);
 
 		// Find by ID string
         else if (typeof(query) == 'string') this.result = list.find(n => n.id == query);
