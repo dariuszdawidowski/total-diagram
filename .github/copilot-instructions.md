@@ -1,5 +1,10 @@
 # GitHub Copilot Instructions for Total Diagram
 
+## Communication Language
+
+- **User interaction:** Polish (polski)
+- **Code and comments:** English
+
 ## Project Overview
 
 Total Diagram is a simple, powerful, extensible, and fast JavaScript/ES8 diagram renderer for web browsers. It's a library for rendering diagrams consisting of nodes and links, designed for simplicity and flexibility.
@@ -55,7 +60,6 @@ Total Diagram is a simple, powerful, extensible, and fast JavaScript/ES8 diagram
    - Use PascalCase for class names
 
 2. **Comments:**
-   - Add ASCII art headers at the top of each file for visual identity
    - Use JSDoc style comments for constructors and methods
    - Include parameter types and descriptions
 
@@ -73,6 +77,28 @@ Total Diagram is a simple, powerful, extensible, and fast JavaScript/ES8 diagram
    - Group related functionality together
    - Use arrow functions for inline callbacks and object methods
    - Keep transforms and state in clear object structures
+
+6. **Braces:**
+   - Line break before `else`
+   ```javascript
+   if (condition) {
+       // code
+   }
+   else {
+       // code
+   }
+   ```
+
+7. **Strings:**
+   - Use single quotes `'text'` for strings
+   - Use template literals for variables `` `${var}` ``
+
+8. **HTML:**
+   - HTML5 standard
+   - No self-closing tags (e.g., use `<br>` not `<br/>`)
+
+9. **File Naming:**
+   - Use kebab-case (e.g., `send-token.js`, `manager-nodes.js`)
 
 ### Code Patterns
 
