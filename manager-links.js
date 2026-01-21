@@ -81,7 +81,7 @@ class TotalDiagramLinksManager {
             this.list.length = 0;
 
             // Broadcast delete event
-            const event = new CustomEvent('broadcast:delnodes', { detail: '*' });
+            const event = new CustomEvent('broadcast:dellinks', { detail: '*' });
             this.render.container.dispatchEvent(event);
 
         }

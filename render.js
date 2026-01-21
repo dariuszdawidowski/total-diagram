@@ -203,7 +203,7 @@ class TotalDiagramRenderHTML5 {
         // Animation
         if (animation == 'smooth') {
             this.board.style.transition = 'transform 1s';
-            setInterval(() => { this.board.style.removeProperty('transition'); }, 1000);
+            setTimeout(() => { this.board.style.removeProperty('transition'); }, 1000);
         }
 
         // Zoom
