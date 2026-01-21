@@ -8,8 +8,8 @@ global.crypto = {
 };
 
 // Load the required classes
-const TotalDiagramNode = require('../render-node.js');
-const TotalDiagramNodesManager = require('../manager-nodes.js');
+const TotalDiagramNode = require('../src/render-node.js');
+const TotalDiagramNodesManager = require('../src/manager-nodes.js');
 
 describe('TotalDiagramNodesManager', () => {
 

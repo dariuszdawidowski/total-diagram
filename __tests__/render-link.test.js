@@ -8,8 +8,8 @@ global.crypto = {
 };
 
 // Load the required classes
-const TotalDiagramNode = require('../render-node.js');
-const TotalDiagramLink = require('../render-link.js');
+const TotalDiagramNode = require('../src/render-node.js');
+const TotalDiagramLink = require('../src/render-link.js');
 
 describe('TotalDiagramLink', () => {
 

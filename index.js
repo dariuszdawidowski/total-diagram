@@ -5,13 +5,13 @@
  */
 
 // Import all modules
-const TotalJSON = require('./format.js');
-const { AnonymousTraversalSource, GraphTraversalSource, GraphTraversal } = require('./gremlin.js');
-const TotalDiagramNode = require('./render-node.js');
-const TotalDiagramLink = require('./render-link.js');
-const TotalDiagramNodesManager = require('./manager-nodes.js');
-const TotalDiagramLinksManager = require('./manager-links.js');
-const TotalDiagramRenderHTML5 = require('./render.js');
+const TotalJSON = require('./src/format.js');
+const { AnonymousTraversalSource, GraphTraversalSource, GraphTraversal } = require('./src/gremlin.js');
+const TotalDiagramNode = require('./src/render-node.js');
+const TotalDiagramLink = require('./src/render-link.js');
+const TotalDiagramNodesManager = require('./src/manager-nodes.js');
+const TotalDiagramLinksManager = require('./src/manager-links.js');
+const TotalDiagramRenderHTML5 = require('./src/render.js');
 
 // Export all classes
 module.exports = {
