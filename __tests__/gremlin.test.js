@@ -8,9 +8,9 @@ global.crypto = {
 };
 
 // Load the required classes
-const TotalDiagramNode = require('../render-node.js');
-const TotalDiagramLink = require('../render-link.js');
-const { AnonymousTraversalSource, GraphTraversalSource, GraphTraversal } = require('../gremlin.js');
+const TotalDiagramNode = require('../src/render-node.js');
+const TotalDiagramLink = require('../src/render-link.js');
+const { AnonymousTraversalSource, GraphTraversalSource, GraphTraversal } = require('../src/gremlin.js');
 
 describe('Gremlin Light', () => {
 

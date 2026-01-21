@@ -4,9 +4,9 @@ module.exports = {
         '**/__tests__/**/*.test.js'
     ],
     collectCoverageFrom: [
-        '*.js',
+        'src/**/*.js',
+        'index.js',
         '!build.js',
-        '!format.js',
         '!cypress.config.js',
         '!jest.config.js',
         '!total-diagram.js.ejs'
