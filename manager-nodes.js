@@ -130,3 +130,8 @@ class TotalDiagramNodesManager {
     }
 
 }
+
+// Export for Node.js/Jest testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = TotalDiagramNodesManager;
+}

@@ -105,3 +105,8 @@ class GraphTraversal {
 	}
 
 }
+
+// Export for Node.js/Jest testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { AnonymousTraversalSource, GraphTraversalSource, GraphTraversal };
+}
