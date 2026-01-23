@@ -13,7 +13,7 @@ const TotalDiagramNodesManager = require('./src/manager-nodes.js');
 const TotalDiagramLinksManager = require('./src/manager-links.js');
 const TotalDiagramRenderHTML5 = require('./src/render.js');
 
-// Export all classes
+// Export all classes as named exports
 module.exports = {
     TotalJSON,
     AnonymousTraversalSource,
@@ -27,3 +27,18 @@ module.exports = {
     // Convenience alias for the main renderer
     TotalDiagram: TotalDiagramRenderHTML5
 };
+
+// Individual named exports for better ES6 compatibility
+module.exports.TotalJSON = TotalJSON;
+module.exports.AnonymousTraversalSource = AnonymousTraversalSource;
+module.exports.GraphTraversalSource = GraphTraversalSource;
+module.exports.GraphTraversal = GraphTraversal;
+module.exports.TotalDiagramNode = TotalDiagramNode;
+module.exports.TotalDiagramLink = TotalDiagramLink;
+module.exports.TotalDiagramNodesManager = TotalDiagramNodesManager;
+module.exports.TotalDiagramLinksManager = TotalDiagramLinksManager;
+module.exports.TotalDiagramRenderHTML5 = TotalDiagramRenderHTML5;
+module.exports.TotalDiagram = TotalDiagramRenderHTML5;
+
+// Default export for bundler compatibility
+module.exports.default = module.exports;

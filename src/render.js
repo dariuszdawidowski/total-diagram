@@ -7,6 +7,11 @@
  *                                                                                                 *
  **************************************************************************************************/
 
+// Import Gremlin for Node.js/webpack
+if (typeof module !== 'undefined' && typeof require !== 'undefined') {
+    var { AnonymousTraversalSource } = require('./gremlin.js');
+}
+
 class TotalDiagramRenderHTML5 {
 
     /**
