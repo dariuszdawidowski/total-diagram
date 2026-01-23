@@ -8,7 +8,7 @@ Total Diagram
 Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer for web browsers.
 </p>
 <p align="center">
-v0.9.11
+v0.10.0
 </p>
 
 [![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml)
@@ -92,17 +92,12 @@ If you are looking for an example of building a larger system based on this libr
 - Vanilla JavaScript/ES8
 - No dependencies
 
-# Build minified bundle file
+# Build minified library
 
 ```bash
 npm install
 npm run build
 ```
-Note: This is browser-centric vanilla JavaScript library, npm is only used to minify and bundle files.
-
-# Load from CDN
-
-https://unpkg.com/total-diagram@latest/dist/total-diagram.js
 
 # Authors
 
