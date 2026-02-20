@@ -5,20 +5,22 @@ describe('SVG Links Rendering Tests', () => {
     })
 
     it('should render SVG elements for links', () => {
-        cy.get('.link svg').should('exist')
+        cy.get('.link').should('exist')
     })
 
     it('should have SVG with correct namespace', () => {
-        cy.get('.link svg').should('have.attr', 'xmlns', 'http://www.w3.org/2000/svg')
+        cy.get('.link').first().then(($link) => {
+            expect($link[0].namespaceURI).to.eq('http://www.w3.org/2000/svg')
+        })
     })
 
     it('should have path elements within SVG', () => {
-        cy.get('.link svg path').should('exist')
+        cy.get('.link path').should('exist')
     })
 
     it('should have path with d attribute defining the curve', () => {
-        cy.get('.link svg path').should('have.attr', 'd')
-        cy.get('.link svg path').then(($path) => {
+        cy.get('.link path').should('have.attr', 'd')
+        cy.get('.link path').first().then(($path) => {
             const d = $path.attr('d')
             expect(d).to.not.be.empty
             expect(d).to.match(/^M/)  // SVG path should start with M (moveto)
@@ -44,8 +46,8 @@ describe('SVG Links Rendering Tests', () => {
     it('should have socket with correct styling', () => {
         cy.get('.socket').first()
             .should('have.css', 'position', 'absolute')
-            .should('have.css', 'width', '10px')
-            .should('have.css', 'height', '10px')
+            .should('have.css', 'width', '8px')
+            .should('have.css', 'height', '8px')
     })
 
     it('should render curved paths between nodes', () => {

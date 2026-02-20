@@ -10,7 +10,7 @@ describe('Links Management Tests', () => {
 
     it('should render curved path links', () => {
         cy.get('.link').should('exist')
-        cy.get('.link svg').should('exist')
+        cy.get('.link path').should('exist')
     })
 
     it('should have SVG path elements in links', () => {

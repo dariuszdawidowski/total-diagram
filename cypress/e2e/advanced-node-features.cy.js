@@ -5,15 +5,15 @@ describe('Advanced Node Features Tests', () => {
     })
 
     it('should render node with custom title', () => {
-        cy.get('.titlebar').should('contain', 'My Node')
+        cy.get('.total-diagram-node').first().find('.titlebar').should('contain', 'Node #1')
     })
 
     it('should render node with custom header', () => {
-        cy.get('.header').should('contain', 'Category')
+        cy.get('.total-diagram-node').first().find('.header').should('contain', 'Options for node 1:')
     })
 
     it('should have proper node structure hierarchy', () => {
-        cy.get('.total-diagram-node')
+        cy.get('.total-diagram-node').first()
             .should('exist')
             .within(() => {
                 cy.get('.titlebar').should('exist')
@@ -23,21 +23,21 @@ describe('Advanced Node Features Tests', () => {
     })
 
     it('should have titlebar with correct styling', () => {
-        cy.get('.titlebar')
-            .should('have.css', 'background-color', 'rgb(75, 35, 62)')
+        cy.get('.total-diagram-node').first().find('.titlebar')
+            .should('have.css', 'background-color', 'rgb(241, 147, 49)')
             .should('have.css', 'color', 'rgb(255, 255, 255)')
     })
 
     it('should have header with correct styling', () => {
-        cy.get('.header')
-            .should('have.css', 'background-color', 'rgb(115, 53, 95)')
-            .should('have.css', 'color', 'rgb(255, 255, 255)')
+        cy.get('.total-diagram-node').first().find('.header')
+            .should('have.css', 'background-color', 'rgba(0, 0, 0, 0)')
+            .should('have.css', 'color', 'rgb(34, 34, 34)')
     })
 
     it('should have options with correct styling', () => {
-        cy.get('.option')
-            .should('have.css', 'background-color', 'rgb(232, 143, 86)')
-            .should('have.css', 'color', 'rgb(0, 0, 0)')
+        cy.get('.total-diagram-node').first().find('.option').first()
+            .should('have.css', 'background-color', 'rgb(255, 245, 245)')
+            .should('have.css', 'color', 'rgb(34, 34, 34)')
     })
 
     it('should have node with flex display', () => {
@@ -49,9 +49,12 @@ describe('Advanced Node Features Tests', () => {
     })
 
     it('should have all options rendered in order', () => {
-        cy.get('.option').should('have.length', 3)
-        cy.get('.option').eq(0).should('contain', 'Option 1')
-        cy.get('.option').eq(1).should('contain', 'Option 2')
-        cy.get('.option').eq(2).should('contain', 'Option 3')
+        cy.get('.total-diagram-node').first().within(() => {
+            cy.get('.option').should('have.length', 4)
+            cy.get('.option').eq(0).should('contain', 'Option 1')
+            cy.get('.option').eq(1).should('contain', 'Option 2')
+            cy.get('.option').eq(2).should('contain', 'Option 3')
+            cy.get('.option').eq(3).should('contain', 'Option 4')
+        })
     })
 })

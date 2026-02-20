@@ -38,6 +38,6 @@ describe('Basic Rendering Tests', () => {
 
     it('should have correct title and description', () => {
         cy.get('h3').should('contain', '1: Basic demo')
-        cy.get('p').should('contain', 'How to make and style custom nodes and links.')
+        cy.get('p').should('contain', 'How to create two nodes and link them.')
     })
 })

@@ -132,10 +132,11 @@ npm run test:coverage
 Open Cypress test runner (interactive mode):
 
 ```bash
+npx http-server . -p 8080 -a 127.0.0.1
 npm run test:e2e
 ```
 
-Run Cypress in headless mode:
+Run Cypress in headless mode (for agents):
 
 ```bash
 npx cypress run

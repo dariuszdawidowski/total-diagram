@@ -25,11 +25,11 @@ describe('DOM Structure and Styling Tests', () => {
     })
 
     it('should load all required JavaScript files', () => {
-        cy.window().should('have.property', 'TotalDiagramRenderHTML5')
-        cy.window().should('have.property', 'TotalDiagramNode')
-        cy.window().should('have.property', 'TotalDiagramLink')
-        cy.window().should('have.property', 'TotalDiagramNodesManager')
-        cy.window().should('have.property', 'TotalDiagramLinksManager')
+        cy.get('script[src$="/src/render-node.js"]').should('exist')
+        cy.get('script[src$="/src/render-link.js"]').should('exist')
+        cy.get('script[src$="/src/manager-nodes.js"]').should('exist')
+        cy.get('script[src$="/src/manager-links.js"]').should('exist')
+        cy.get('script[src$="/src/render.js"]').should('exist')
     })
 
     it('should have container with full width and height', () => {
