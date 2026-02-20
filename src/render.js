@@ -63,6 +63,12 @@ class TotalDiagramRenderHTML5 {
                 this.speed = (this.speed + Math.min(maxSpeed, this.delta.length() / (deltaTime / 1000))) / 2;
             }
         };
+
+        // Damp animation state (prevents stacking multiple RAF loops)
+        this.dampState = {
+            running: false,
+            frameId: null
+        };
         
         // Window resize callback
         window.addEventListener('resize', () => {
@@ -99,6 +105,12 @@ class TotalDiagramRenderHTML5 {
 
         this.transform.calcSpeed();
 
+        if (this.transform.speed <= minSpeed || this.dampState.running) {
+            return;
+        }
+
+        this.dampState.running = true;
+
         const dampAnimation = () => {
             this.transform.delta.x *= factor;
             this.transform.delta.y *= factor;
@@ -107,11 +119,15 @@ class TotalDiagramRenderHTML5 {
             this.update();
 
             if (Math.abs(this.transform.delta.x) > 0.1 || Math.abs(this.transform.delta.y) > 0.1) {
-                requestAnimationFrame(dampAnimation);
+                this.dampState.frameId = requestAnimationFrame(dampAnimation);
+            }
+            else {
+                this.dampState.running = false;
+                this.dampState.frameId = null;
             }
         };
 
-        if (this.transform.speed > minSpeed) dampAnimation();
+        this.dampState.frameId = requestAnimationFrame(dampAnimation);
     }
 
     /**
