@@ -20,7 +20,7 @@
 		"test:e2e": "cypress open"
 	},
 	"devDependencies": {
-		"cypress": "^13.0.0",
+		"cypress": "^15.10.0",
 		"ejs": "^3.0.2",
 		"fs": "^0.0.1-security",
 		"jest": "^25.0.0",
