@@ -8,7 +8,7 @@ Total Diagram
 Simple, powerful, extensible and fast JavaScript/ES8 diagram renderer for web browsers.
 </p>
 <p align="center">
-v0.10.0
+v0.10.1
 </p>
 
 [![build](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml/badge.svg)](https://github.com/dariuszdawidowski/total-diagram/actions/workflows/build.yml)
