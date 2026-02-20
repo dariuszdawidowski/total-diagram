@@ -45,11 +45,6 @@ Total Diagram is a simple, powerful, extensible, and fast JavaScript/ES8 diagram
    - Connects nodes together
    - Handles rendering of connections
 
-6. **Gremlin Light** (`gremlin.js`)
-   - Ultra lightweight graph traversal query language
-   - Inspired by Apache TinkerPop™ Gremlin
-   - Used for querying and traversing the diagram graph
-
 ## Coding Conventions
 
 ### Style Guidelines
@@ -148,7 +143,6 @@ npm run build
 ├── manager-links.js       # Link manager
 ├── render-node.js         # Node base class
 ├── render-link.js         # Link base class
-├── gremlin.js            # Graph traversal
 ├── format.js             # TotalJSON serialization format
 ├── build.js              # Build script
 ├── total-diagram.js.ejs  # Bundle template
@@ -159,7 +153,7 @@ npm run build
 ## Best Practices
 
 1. **Keep It Vanilla:**
-   - Don't add external dependencies
+   - Don't add external dependencies (only devDependencies are allowed to add external dependencies)
    - Use native browser APIs
    - Keep ES8 as the target
 

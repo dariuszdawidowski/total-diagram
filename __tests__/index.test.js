@@ -17,21 +17,6 @@ describe('Index Entry Point', () => {
         expect(typeof TotalDiagram.TotalJSON).toBe('function');
     });
 
-    test('should export AnonymousTraversalSource', () => {
-        expect(TotalDiagram.AnonymousTraversalSource).toBeDefined();
-        expect(typeof TotalDiagram.AnonymousTraversalSource).toBe('function');
-    });
-
-    test('should export GraphTraversalSource', () => {
-        expect(TotalDiagram.GraphTraversalSource).toBeDefined();
-        expect(typeof TotalDiagram.GraphTraversalSource).toBe('function');
-    });
-
-    test('should export GraphTraversal', () => {
-        expect(TotalDiagram.GraphTraversal).toBeDefined();
-        expect(typeof TotalDiagram.GraphTraversal).toBe('function');
-    });
-
     test('should export TotalDiagramNode', () => {
         expect(TotalDiagram.TotalDiagramNode).toBeDefined();
         expect(typeof TotalDiagram.TotalDiagramNode).toBe('function');
