@@ -99,6 +99,48 @@ npm install
 npm run build
 ```
 
+# Testing
+
+Before running tests, install dependencies:
+
+```bash
+npm install
+```
+
+## Jest (unit tests)
+
+Run all unit tests once:
+
+```bash
+npm test
+```
+
+Run Jest in watch mode:
+
+```bash
+npm run test:watch
+```
+
+Generate coverage report:
+
+```bash
+npm run test:coverage
+```
+
+## Cypress (E2E tests)
+
+Open Cypress test runner (interactive mode):
+
+```bash
+npm run test:e2e
+```
+
+Run Cypress in headless mode:
+
+```bash
+npx cypress run
+```
+
 # Authors
 
 Dariusz Dawidowski\

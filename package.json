@@ -21,11 +21,11 @@
 	},
 	"devDependencies": {
 		"cypress": "^13.0.0",
-		"ejs": "^3.1.9",
+		"ejs": "^3.0.2",
 		"fs": "^0.0.1-security",
-		"jest": "^30.2.0",
-		"jest-environment-jsdom": "^30.2.0",
-		"npm-run-all": "^4.1.5",
+		"jest": "^25.0.0",
+		"jest-environment-jsdom": "^25.5.0",
+		"npm-run-all": "^1.1.3",
 		"terser": "^5.17.3"
 	}
 }
